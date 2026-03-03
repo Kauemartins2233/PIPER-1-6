@@ -1,0 +1,11 @@
+# Simulink cache
+slprj/
+*.slxc
+
+# MATLAB
+*.asv
+*.m~
+
+# OS
+.DS_Store
+Thumbs.db
