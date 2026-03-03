@@ -73,28 +73,32 @@ erro_psi = mod(diff + pi, 2*pi) - pi;
 
 ## Ganhos do PA (neste modelo)
 
-Os ganhos sao parametrizados e carregados do workspace via `executar.m`. Os controladores usam PI (D=0, N=100).
+Os ganhos sao parametrizados e carregados do workspace via `executar.m`. Valores extraidos do modelo nao linear (`controle/Nao Linear/modeloNL.slx`).
+
+**Nota:** Os blocos no modelo de guiagem usam PI (D=0, N=100). Os termos D e N do PID completo estao documentados no `executar.m` para referencia caso se queira converter para PID.
 
 ### Longitudinal
 
-| Malha | Variavel | Tipo | P | I | Sat |
-|-------|----------|------|---|---|-----|
-| Altitude Hold | `C_alt` | PI | 0.596 | 0.356 | [-0.17, 0.26] |
-| Pitch (Atitude) | `C_theta` | PI | 20.31 | 22.60 | sem |
-| SAS Arfagem | `Kq` | Ganho | 0.1 | - | - |
-| Velocidade | `C_vel` | PI | -0.528 | -0.431 | sem |
+| Malha | Variavel | Tipo | P | I | D | N | Sat |
+|-------|----------|------|---|---|---|---|-----|
+| Altitude Hold | `C_alt` | PID | 0.596 | 0.356 | -0.0142 | 6.17 | [-0.17, 0.26] |
+| Pitch (Atitude) | `C_theta` | PID | 20.31 | 22.60 | 1.767 | 1159.4 | sem |
+| SAS Arfagem | `Kq` | Ganho | 0.1 | - | - | - | - |
+| Velocidade | `C_vel` | PID* | -0.0787 | -0.0652 | -0.0152 | 77.0 | sem |
+
+*Velocidade: No modeloNL existem 2 PIDs em cascata. Aqui usa-se o PID externo. PID interno: P=-0.0486, I=-0.0042, D=-0.1245, N=1697.4.
 
 ### Latero-direcional
 
-| Malha | Variavel | Tipo | P | I | Sat |
-|-------|----------|------|---|---|-----|
-| Roll (Bank Angle) | `C_phi` | PI | 26.79 | 13.17 | [-0.43, 0.43] |
-| Heading | - | PI | 2.0 | 0.9 | sem |
-| SAS Rolamento | `Kp` | Ganho | 0.119 | - | - |
-| Heading -> phi | - | Ganho | 0.15 | - | - |
-| Amortecedor Guinada | `Kr` | Ganho + Washout | 0.1 | - | filtro s/(s+1) |
+| Malha | Variavel | Tipo | P | I | D | N | Sat |
+|-------|----------|------|---|---|---|---|-----|
+| Roll (Bank Angle) | `C_phi` | PID | 26.79 | 13.17 | -0.0876 | 305.9 | [-0.43, 0.43] |
+| Heading | - | PI | 2.0 | 0.9 | - | - | sem |
+| SAS Rolamento | `Kp` | Ganho | 0.119 | - | - | - | - |
+| Heading -> phi | - | Ganho | 0.8 | - | - | - | - |
+| Amortecedor Guinada | `Kr` | Ganho + Washout | 0.15 | - | - | - | filtro s/(s+1) |
 
-**Obs:** Heading PI (P=2.0, I=0.9) e Heading->phi (0.15) sao hardcoded no modelo.
+**Obs:** Heading PI (P=2.0, I=0.9) e Heading->phi (0.8) sao hardcoded no modelo de guiagem.
 
 ## Dependencias
 
