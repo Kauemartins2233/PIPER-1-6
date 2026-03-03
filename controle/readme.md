@@ -1,6 +1,6 @@
 # Controle - Piper J-3 Cub 1/6
 
-Malhas de controle longitudinal e latero-direcional projetadas para a aeronave Piper J-3 Cub 1/6, usando Teoria Classica de Controle (controladores PI) sobre os modelos linearizados.
+Malhas de controle longitudinal e latero-direcional projetadas para a aeronave Piper J-3 Cub 1/6, usando controladores PID continuos projetados via PID Tuner do MATLAB.
 
 ## Estrutura
 
@@ -12,38 +12,60 @@ controle/
 
 ## Arquitetura do Controle
 
-O projeto segue a abordagem de (STEVENS & LEWIS, 2016) e (SANTOS, 2018), com controladores PI continuos projetados via PID Tuner do MATLAB e discretizados pelo metodo de Tustin (Ts = 0.01 s, 100 Hz) para implementacao em microcontrolador (ESP32/Arduino).
+O projeto segue a abordagem de (STEVENS & LEWIS, 2016) e (SANTOS, 2018), com controladores PID continuos projetados via PID Tuner do MATLAB. Para implementacao em microcontrolador (ESP32/Arduino) sao discretizados pelo metodo de Tustin (Ts = 0.01 s, 100 Hz).
 
 ### Longitudinal
 
-Tres malhas em cascata/paralelo (Figura 18 do Trabalho 3):
-
-| Loop | Funcao | Entrada | Saida | Ganhos (Kp / Ki) |
-|------|--------|---------|-------|-------------------|
-| Loop 1 (SAS Arfagem) | Aumento de estabilidade de pitch | q | delta_e | Realimentacao de q |
-| Loop 2 (Velocidade) | Rastreamento de VT | VT_ref - VT | delta_T | 0.00644 / 0.0548 |
-| Loop 3 (Altitude) | Controle de altitude | h_ref - h | theta_ref | 0.222 / 0.00146 |
-| Pitch | Rastreamento de theta | theta_ref - theta | delta_e | 0.632 / 0.967 |
-
-Lei de controle discretizada (forma incremental):
+Tres malhas em cascata/paralelo:
 
 ```
-u[k] = u[k-1] + b0*e[k] + b1*e[k-1] - Kq*q
+                          Altitude Hold
+h_ref ──> Sum(+-) ──> PID(s) ──> Add(+ Xe(8)) ──> Theta_ref
+[alt] ─────┘                                          |
+                                                       v
+                   Longitudinal Attitude Control
+Theta_ref ──> Sum(+-) ──> PID(s) ──> Sum(+-) ──> delta_e
+[theta] ──────┘                      Kq*[q] ──┘
+
+                    Velocity Control
+VT_ref ──> Sum(+-) ──> PID(s) ──> delta_T
+[VT] ──────┘
 ```
+
+| Malha | Funcao | Tipo | P | I | D | N | Saturacao |
+|-------|--------|------|---|---|---|---|-----------|
+| Altitude Hold | h_ref -> theta_ref | PID | 0.596 | 0.356 | -0.0142 | 6.17 | [-0.17, 0.26] |
+| Pitch (Atitude) | theta_ref -> delta_e | PID | 20.31 | 22.60 | 1.767 | 1159.4 | sem |
+| SAS Arfagem | Amortecimento de q | Ganho | Kq = 0.1 | - | - | - | - |
+| Velocidade | VT_ref -> delta_T | PID | -0.528 | -0.431 | -0.0363 | 11348.4 | sem |
 
 ### Latero-direcional
 
-Duas malhas (Figura 20 do Trabalho 3):
-
-| Malha | Funcao | Entrada | Saida | Ganhos (Kp / Ki) |
-|-------|--------|---------|-------|-------------------|
-| SAS Rolamento | Amortecedor de rolagem (realimentacao de p) | p | delta_a | K = 0.1 |
-| Roll (PI) | Rastreamento de phi | phi_ref - phi | delta_a | 30.5907 / 68.7893 |
-| Rudder | Amortecedor de guinada | r | delta_r | Kr (washout) |
-
-Leis de controle discretizadas:
+Duas malhas:
 
 ```
+                PA de Rolamento (Bank Angle Hold)
+psi_ref ──> Sum(+-) ──> Gain(0.8) ──> Sum(+-) ──> PID(s) ──> Sum(+-) ──> delta_a
+[psi] ─────┘                          [phi] ──────┘           Kp*[p] ──┘
+
+                PA de Guinada (Heading Select)
+[r] ──> Washout [s/(s+1)] ──> Kr ──> Sum(+-) ──> delta_r
+                                      0 ────────┘
+```
+
+| Malha | Funcao | Tipo | P | I | D | N | Saturacao |
+|-------|--------|------|---|---|---|---|-----------|
+| Roll (Bank Angle) | phi_ref -> delta_a | PID | 26.79 | 13.17 | -0.0876 | 305.9 | sem |
+| SAS Rolamento | Amortecimento de p | Ganho | Kp = 0.119 | - | - | - | - |
+| Heading -> phi | psi_ref -> phi_ref | Ganho | 0.8 | - | - | - | - |
+| Amortecedor Guinada | Washout de r | Ganho + Filtro | Kr = 0.1 | - | - | - | s/(s+1) |
+
+### Discretizacao (para microcontrolador)
+
+Metodo de Tustin, Ts = 0.01 s (100 Hz):
+
+```
+elevator: u[k] = u[k-1] + b0*e[k] + b1*e[k-1] - Kq*q
 aileron:  u[k] = u[k-1] + b0*e[k] + b1*e[k-1] - Kp*p
 rudder:   u[k] = u[k-1] - Kr*r
 ```

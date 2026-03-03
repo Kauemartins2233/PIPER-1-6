@@ -52,6 +52,24 @@ Ue = INPUTS(1:4)
 - Curva coordenada: excursao transitoria em phi (~7.8 graus) gera taxa de giro, aeronave nivela e estabiliza na nova proa
 - Erro estatico desprezivel em ambas as variaveis
 
-## Ganhos dos controladores
+## Ganhos dos controladores (valores atuais)
 
-Mesmos ganhos descritos em `controle/readme.md`.
+### Longitudinal
+
+| Malha | Tipo | P | I | D | N | Sat |
+|-------|------|---|---|---|---|-----|
+| Altitude Hold | PID | 0.596 | 0.356 | -0.0142 | 6.17 | [-0.17, 0.26] |
+| Pitch (Atitude) | PID | 20.31 | 22.60 | 1.767 | 1159.4 | sem |
+| SAS Arfagem | Ganho | Kq = 0.1 | | | | |
+| Velocidade | PID | -0.528 | -0.431 | -0.0363 | 11348.4 | sem |
+
+### Latero-direcional
+
+| Malha | Tipo | P | I | D | N | Sat |
+|-------|------|---|---|---|---|-----|
+| Roll (Bank Angle) | PID | 26.79 | 13.17 | -0.0876 | 305.9 | sem |
+| SAS Rolamento | Ganho | Kp = 0.119 | | | | |
+| Heading -> phi | Ganho | 0.8 | | | | |
+| Amortecedor Guinada | Ganho + Washout | Kr = 0.1, filtro s/(s+1) | | | | |
+
+Ver diagramas de blocos completos em `controle/readme.md`.
