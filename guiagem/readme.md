@@ -84,9 +84,7 @@ Os ganhos sao parametrizados e carregados do workspace via `executar.m`. Valores
 | Altitude Hold | `C_alt` | PID | 0.596 | 0.356 | -0.0142 | 6.17 | [-0.17, 0.26] |
 | Pitch (Atitude) | `C_theta` | PID | 20.31 | 22.60 | 1.767 | 1159.4 | sem |
 | SAS Arfagem | `Kq` | Ganho | 0.1 | - | - | - | - |
-| Velocidade | `C_vel` | PID* | -0.0787 | -0.0652 | -0.0152 | 77.0 | sem |
-
-*Velocidade: No modeloNL existem 2 PIDs em cascata. Aqui usa-se o PID externo. PID interno: P=-0.0486, I=-0.0042, D=-0.1245, N=1697.4.
+| Velocidade | `C_vel` | PID | -0.0787 | -0.0652 | -0.0152 | 77.0 | sem |
 
 ### Latero-direcional
 
