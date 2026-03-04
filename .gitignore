@@ -6,6 +6,15 @@ slprj/
 *.asv
 *.m~
 
+# MATLAB version backups
+*.slx.r20*
+
+# Temporary files
+*_temp.zip
+
+# Debug logs
+*.log
+
 # OS
 .DS_Store
 Thumbs.db

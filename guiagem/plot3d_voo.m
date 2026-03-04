@@ -160,10 +160,10 @@ subplot(2,2,[1 3]);
 plot3(xE, xN, alt, 'b-', 'LineWidth', 1.5);
 hold on;
 
-% Waypoints
+% Waypoints (apenas markers, sem linha conectando)
 if exist('WPs', 'var')
-    plot3(WPs(:,2), WPs(:,1), WPs(:,3), 'rs-', 'MarkerSize', 10, ...
-          'MarkerFaceColor', 'r', 'LineWidth', 1.5);
+    plot3(WPs(:,2), WPs(:,1), WPs(:,3), 'rs', 'MarkerSize', 10, ...
+          'MarkerFaceColor', 'r');
     % Numerar waypoints
     for i = 1:size(WPs, 1)
         text(WPs(i,2)+5, WPs(i,1)+5, WPs(i,3)+2, sprintf('WP%d', i), ...
@@ -187,7 +187,7 @@ subplot(2,2,2);
 plot(xE, xN, 'b-', 'LineWidth', 1.5);
 hold on;
 if exist('WPs', 'var')
-    plot(WPs(:,2), WPs(:,1), 'rs-', 'MarkerSize', 10, 'MarkerFaceColor', 'r', 'LineWidth', 1.5);
+    plot(WPs(:,2), WPs(:,1), 'rs', 'MarkerSize', 10, 'MarkerFaceColor', 'r');
     for i = 1:size(WPs, 1)
         text(WPs(i,2)+5, WPs(i,1)+5, sprintf('WP%d', i), ...
              'FontSize', 9, 'FontWeight', 'bold', 'Color', 'r');
