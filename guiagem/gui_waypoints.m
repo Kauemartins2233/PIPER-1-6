@@ -21,8 +21,14 @@ function gui_waypoints()
     par_prop = dados.par_prop;
     par_gen  = dados.par_gen;
 
-    % Estado de equilíbrio
-    equilibrium;  % Define Xe (12x1) e Ue (4x1)
+    % Estado de equilíbrio (mesmo conteúdo de equilibrium.m)
+    VT = 15;
+    Theta = -0.121684;
+    U = VT;
+    V = 0;
+    W = VT * tan(Theta);
+    Xe = [U;V;W;0;0;0;0;Theta;0;0;0;-100];
+    Ue = [0.491387; 0.015456; 0; 0];
     h_eq = -Xe(12);  % altitude de equilíbrio = 100m
 
     % Ganhos PID (mesmos do inicializar.m)
@@ -134,8 +140,17 @@ function gui_waypoints()
         'Limits', [10 500]);
     uilabel(fig, 'Position', [panelX+255 yPos 30 22], 'Text', 'm');
 
+    yPos = yPos - 35;
+    uilabel(fig, 'Position', [panelX yPos 160 22], ...
+        'Text', 'Tempo de simulação:', 'FontSize', 11);
+    fldStopTime = uieditfield(fig, 'numeric', ...
+        'Position', [panelX+170 yPos 80 22], ...
+        'Value', 200, ...
+        'Limits', [10 5000]);
+    uilabel(fig, 'Position', [panelX+255 yPos 30 22], 'Text', 's');
+
     % --- Botão SIMULAR ---
-    btnSimular = uibutton(fig, 'Position', [panelX 120 panelW 50], ...
+    btnSimular = uibutton(fig, 'Position', [panelX 100 panelW 50], ...
         'Text', 'SIMULAR', ...
         'FontSize', 16, 'FontWeight', 'bold', ...
         'BackgroundColor', [0.2 0.6 0.2], ...
@@ -303,13 +318,37 @@ function gui_waypoints()
             assignin('base', 'TrimInput', TrimInput);
             assignin('base', 'Kp_sas',   Kp_sas);
 
+            % Interpolar waypoints com diferença de altitude grande
+            max_dalt = 30;  % máxima variação de altitude por trecho (m)
+            wp_interp = wp_data(1, :);
+            for i = 2:size(wp_data, 1)
+                dalt = abs(wp_data(i,3) - wp_data(i-1,3));
+                if dalt > max_dalt
+                    % Número de subdivisões necessárias
+                    n_sub = ceil(dalt / max_dalt);
+                    for k = 1:n_sub-1
+                        frac = k / n_sub;
+                        wp_mid = wp_data(i-1,:) + frac * (wp_data(i,:) - wp_data(i-1,:));
+                        wp_interp(end+1, :) = wp_mid;
+                    end
+                end
+                wp_interp(end+1, :) = wp_data(i, :);
+            end
+
             % Waypoints e raio
-            assignin('base', 'WPs',      wp_data);
+            assignin('base', 'WPs',      wp_interp);
             assignin('base', 'R_accept', R_accept_val);
 
-            % Carregar modelo e simular
+            lblStatus.Text = sprintf('Simulando... (%ds, %d WPs interpolados)', ...
+                fldStopTime.Value, size(wp_interp,1));
+            drawnow;
+
+            % Carregar modelo e configurar
+            t_stop = fldStopTime.Value;
             modelPath = fullfile(rootDir, 'guiagem', 'NL_guidance.slx');
             load_system(modelPath);
+            set_param('NL_guidance', 'StopTime', num2str(t_stop));
+
             out = sim('NL_guidance');
             assignin('base', 'out', out);
             assignin('base', 'WPs', wp_data);
