@@ -43,7 +43,6 @@ PIPER-1-6-main/
 ```matlab
 >> inicializar                                         % carrega workspace
 >> open('guiagem/NL_guidance.slx')                     % abre modelo
->> setup_pid_blocks                                    % aplica PID completo (D, N)
 >> % Simular (Ctrl+T)
 >> plot3d_voo                                          % visualizar trajetória 3D
 ```

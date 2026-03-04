@@ -7,7 +7,6 @@ Sistema de guiagem por waypoints integrado ao modelo não linear 6-DOF com pilot
 | Arquivo | Descrição |
 |---------|-----------|
 | `NL_guidance.slx` | Modelo Simulink: guiagem + controle + planta não linear |
-| `setup_pid_blocks.m` | Aplica PID completo (termos D e N) nos blocos do Simulink |
 | `plot3d_voo.m` | Plota trajetória 3D após simulação |
 | `plots_guidance.mlx` | Live Script de plotagem para validação (3 testes) |
 
@@ -15,15 +14,13 @@ Sistema de guiagem por waypoints integrado ao modelo não linear 6-DOF com pilot
 
 1. Na raiz do repositório, rodar `inicializar` (carrega parâmetros, ganhos e waypoints).
 2. Abrir `guiagem/NL_guidance.slx` no Simulink.
-3. Rodar `setup_pid_blocks` (aplica os termos D e N nos blocos PID).
-4. (Opcional) Alterar `missao` no `inicializar.m` para selecionar o perfil de voo.
-5. Simular (Ctrl+T).
-6. Rodar `plot3d_voo` para visualizar a trajetória 3D.
+3. (Opcional) Alterar `missao` no `inicializar.m` para selecionar o perfil de voo.
+4. Simular (Ctrl+T).
+5. Rodar `plot3d_voo` para visualizar a trajetória 3D.
 
 ```matlab
 >> inicializar
 >> open('guiagem/NL_guidance.slx')
->> setup_pid_blocks
 >> % Simular (Ctrl+T)
 >> plot3d_voo
 ```
@@ -35,7 +32,8 @@ Selecionar via variável `missao` no `inicializar.m`:
 | Missão | Descrição |
 |--------|-----------|
 | 1 | Voo reto nivelado (teste de controle puro, sem transições de WP) |
-| 2 | Triângulo (teste de guiagem completo com 4 waypoints) |
+| 2 | Triângulo com altitude constante (4 waypoints a 100m) |
+| 3 | Triângulo com variação de altitude (100m → 120m → 90m → 100m) |
 
 ## Arquitetura
 
@@ -92,9 +90,7 @@ erro_psi = mod(diff + pi, 2*pi) - pi;
 
 ## Ganhos do Piloto Automático
 
-Os ganhos são carregados do workspace via `inicializar.m`. Os mesmos valores absolutos são usados no `modeloNL1.slx` (controle).
-
-**Nota:** Os blocos PID no modelo usam apenas P e I do workspace (D=0, N=100 hardcoded). Para aplicar o PID completo com D e N, rodar `setup_pid_blocks` após abrir o modelo.
+Os ganhos são carregados do workspace via `inicializar.m`. Os mesmos valores absolutos são usados no `modeloNL1.slx` (controle). Os blocos PID no modelo referenciam diretamente as variáveis do workspace.
 
 ### Longitudinal
 
@@ -114,8 +110,6 @@ Os ganhos são carregados do workspace via `inicializar.m`. Os mesmos valores ab
 | SAS Rolamento | `Kp` | Ganho | 0.119 | - | - | - | - |
 | Heading -> phi | - | Ganho | 0.3 | - | - | - | - |
 | Amortecedor Guinada | `Kr` | Ganho + Washout | 0.15 | - | - | - | filtro s/(s+1) |
-
-**Obs:** Heading (P=2.5, I=0) e Gain1 (0.3) são configurados via `setup_pid_blocks`.
 
 ## Dependências
 

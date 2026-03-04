@@ -9,9 +9,8 @@
 % Uso para GUIAGEM:
 %   1) >> inicializar
 %   2) >> open('guiagem/NL_guidance.slx')
-%   3) >> setup_pid_blocks   % aplica termos D e N nos PIDs
-%   4) Simular (Ctrl+T)
-%   5) >> plot3d_voo          % visualizar trajetoria 3D
+%   3) Simular (Ctrl+T)
+%   4) >> plot3d_voo          % visualizar trajetoria 3D
 %
 % Uso para CONTROLE:
 %   1) >> inicializar
@@ -26,7 +25,7 @@ clear; clc;
 %% ========== Paths ==========
 rootDir = fileparts(mfilename('fullpath'));
 addpath(fullfile(rootDir, 'modelos', 'Não Linear'));  % sfunction_piper, aerodynamics, dyn_rigidbody, etc.
-addpath(fullfile(rootDir, 'guiagem'));                 % setup_pid_blocks, plot3d_voo, etc.
+addpath(fullfile(rootDir, 'guiagem'));                 % plot3d_voo, etc.
 
 %% ========== Parametros da Aeronave ==========
 % Carrega par_aero, par_prop, par_gen
@@ -55,10 +54,8 @@ elseif trim_residual > 0.1
 end
 
 %% ========== Ganhos do Piloto Automatico ==========
-% Valores extraidos do modeloNL1.slx (hardcoded nos blocos PID originais).
-% IMPORTANTE: Os blocos PID no NL_guidance.slx usam apenas Kp e Ki do
-% workspace (D=0, N=100 hardcoded). Para usar PID COMPLETO com os termos
-% D e N corretos, rodar setup_pid_blocks.m APOS abrir o modelo.
+% Valores extraidos do modeloNL1.slx.
+% Os blocos PID em ambos os modelos referenciam estas variaveis do workspace.
 
 % --- Longitudinal ---
 
@@ -105,7 +102,7 @@ Kp = 0.119;
 Kr = 0.15;
 
 % Heading -> phi: ganho = 0.8 (hardcoded no modelo Latero)
-% Heading PID:    P = 2.5, I = 0 (configurado via setup_pid_blocks)
+% Heading PID:    P = 2.5, I = 0 (salvo no modelo)
 
 %% ========== Waypoints ==========
 % Formato: [Norte(m), Leste(m), Altitude(m), Velocidade(m/s)]
@@ -120,8 +117,9 @@ h_eq = -Xe(12);  % altitude de equilibrio
 
 % --- Selecionar missao ---
 % 1 = voo reto (teste de controle puro, sem transicoes de WP)
-% 2 = triangulo (teste de guiagem completo)
-missao = 2;
+% 2 = triangulo (mesma altitude)
+% 3 = triangulo com variacao de altitude
+missao = 3;
 
 switch missao
     case 1
@@ -131,12 +129,20 @@ switch missao
             50000, 0, h_eq, 15;     % WP2: Norte (nunca alcanca)
         ];
     case 2
-        % Triangulo grande
+        % Triangulo grande (altitude constante)
         WPs = [
-             0,      0, h_eq, 15;   % WP1: partida
-          1000,      0, h_eq, 15;   % WP2: Norte longe
-           500,    800, h_eq, 15;   % WP3: Nordeste
-             0,      0, h_eq, 15;   % WP4: volta ao inicio
+             0,      0, h_eq,    15;   % WP1: partida (100m)
+          1000,      0, h_eq,    15;   % WP2: Norte
+           500,    800, h_eq,    15;   % WP3: Nordeste
+             0,      0, h_eq,    15;   % WP4: volta ao inicio
+        ];
+    case 3
+        % Triangulo com variacao de altitude
+        WPs = [
+             0,      0, h_eq,      15;   % WP1: partida (100m)
+          1000,      0, h_eq + 20, 15;   % WP2: Norte, sobe para 120m
+           500,    800, h_eq - 10, 15;   % WP3: Nordeste, desce para 90m
+             0,      0, h_eq,      15;   % WP4: volta ao inicio (100m)
         ];
 end
 
@@ -158,5 +164,5 @@ disp(['  Waypoints: ' num2str(size(WPs,1)) ' pontos']);
 disp(['  R_accept:  ' num2str(R_accept) ' m']);
 disp(['  VT_eq:     ' num2str(norm(Xe(1:3))) ' m/s']);
 disp(['  Alt_eq:    ' num2str(-Xe(12)) ' m']);
-fprintf('\n  Para GUIAGEM:  open(''guiagem/NL_guidance.slx''), depois setup_pid_blocks\n');
+fprintf('\n  Para GUIAGEM:  open(''guiagem/NL_guidance.slx''), simular, depois plot3d_voo\n');
 fprintf('  Para CONTROLE: open(''controle/Nao Linear/modeloNL1.slx''), depois simular\n');
