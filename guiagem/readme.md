@@ -38,13 +38,31 @@ A GUI carrega automaticamente todos os parâmetros. Basta clicar no mapa para po
 
 ## Interface Visual (gui_waypoints)
 
-Interface gráfica para definição interativa de waypoints:
+Interface gráfica para definição interativa de waypoints. Não requer rodar `inicializar.m` antes — a GUI carrega todos os parâmetros automaticamente.
 
-- **Mapa 2D clicável** (Norte x Leste): clique para adicionar waypoints
-- **Tabela editável**: ajuste fino de coordenadas, altitude e velocidade
-- **Campos de configuração**: altitude e velocidade padrão para novos WPs, raio de aceitação
+### Funcionalidades
+
+- **Mapa 2D clicável** (Norte x Leste): clique para adicionar waypoints na posição desejada
+- **Tabela editável**: ajuste fino de coordenadas, altitude e velocidade de cada WP
+- **Altitude e velocidade padrão**: define os valores aplicados ao próximo clique no mapa
+- **Raio de aceitação**: configura o R_accept usado pela guiagem (padrão: 80m)
+- **Tempo de simulação**: define o StopTime máximo da simulação (padrão: 200s)
 - **Botão Simular**: executa automaticamente a inicialização, simulação e plotagem 3D
-- WP1 é fixo na origem (posição inicial da aeronave)
+- **Remover Último / Limpar Tudo**: botões para gerenciar waypoints
+
+### Interpolação automática de altitude
+
+Quando a diferença de altitude entre dois waypoints consecutivos é maior que 30m, a GUI insere automaticamente waypoints intermediários ao longo do trecho. Isso evita degraus bruscos de altitude que podem saturar o controlador.
+
+Exemplo: WP com altitude 100m → 200m gera ~3 waypoints intermediários (100 → 133 → 167 → 200m). Os waypoints interpolados são usados na simulação, mas os gráficos mostram apenas os waypoints originais definidos pelo usuário.
+
+### Dicas de uso
+
+- **WP1 é fixo na origem** (0, 0, 100m) — posição inicial da aeronave
+- **Espaçamento recomendado**: manter pelo menos 300-500m entre waypoints para uma navegação suave
+- **R_accept**: aumentar para 150-200m se os waypoints estiverem próximos (~200m entre si)
+- **Variação de altitude**: funciona bem até ±50m por trecho (a interpolação cuida do resto)
+- Se a simulação terminar antes de atingir todos os WPs, aumente o tempo de simulação
 
 ## Missões disponíveis
 
