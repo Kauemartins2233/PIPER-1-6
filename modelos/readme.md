@@ -1,16 +1,16 @@
 # Modelos - Piper J-3 Cub 1/6
 
-Modelos matematicos da aeronave utilizados para simulacao e projeto de controladores.
+Modelos matemáticos da aeronave utilizados para simulação e projeto de controladores.
 
-## Subdiretorios
+## Subdiretórios
 
-| Pasta | Descricao |
+| Pasta | Descrição |
 |-------|-----------|
-| `Linear/` | Matrizes de espaco de estados (A, B, C, D) obtidas por linearizacao |
-| `Nao Linear/` | Modelo 6-DOF completo via S-Function do Simulink (21 saidas) |
+| `Linear/` | Matrizes de espaço de estados (A, B, C, D) obtidas por linearização |
+| `Não Linear/` | Modelo 6-DOF completo via S-Function do Simulink (21 saídas) |
 
-## Funcoes compartilhadas
+## Funções compartilhadas
 
-As funcoes do modelo nao linear (`sfunction_piper.m`, `dyn_rigidbody.m`, `aerodynamics.m`, `propulsion.m`, `equilibrium.m`, etc.) ficam em `Nao Linear/` e sao referenciadas por outros modulos (trim, controle, guiagem) via `addpath`.
+As funções do modelo não linear (`sfunction_piper.m`, `dyn_rigidbody.m`, `aerodynamics.m`, `propulsion.m`, `equilibrium.m`, etc.) ficam em `Não Linear/` e são referenciadas por outros módulos (trim, controle, guiagem) via `addpath`.
 
-O script `inicializar.m` (na raiz do repositorio) adiciona automaticamente `modelos/Nao Linear/` ao path do MATLAB.
+O script `inicializar.m` (na raiz do repositório) adiciona automaticamente `modelos/Não Linear/` ao path do MATLAB.
