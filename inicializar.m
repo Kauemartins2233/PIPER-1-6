@@ -140,8 +140,8 @@ switch missao
         % Triangulo com variacao de altitude
         WPs = [
              0,      0, h_eq,      15;   % WP1: partida (100m)
-          1000,      0, h_eq + 50, 15;   % WP2: Norte, sobe para 150m
-           500,    800, h_eq - 30, 15;   % WP3: Nordeste, desce para 70m
+          1000,      0, h_eq + 20, 15;   % WP2: Norte, sobe para 120m
+           500,    800, h_eq - 10, 15;   % WP3: Nordeste, desce para 90m
              0,      0, h_eq,      15;   % WP4: volta ao inicio (100m)
         ];
 end

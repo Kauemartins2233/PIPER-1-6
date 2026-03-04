@@ -7,21 +7,10 @@ Sistema de guiagem por waypoints integrado ao modelo não linear 6-DOF com pilot
 | Arquivo | Descrição |
 |---------|-----------|
 | `NL_guidance.slx` | Modelo Simulink: guiagem + controle + planta não linear |
-| `gui_waypoints.m` | Interface visual para inserção de waypoints e simulação automática |
 | `plot3d_voo.m` | Plota trajetória 3D após simulação |
 | `plots_guidance.mlx` | Live Script de plotagem para validação (3 testes) |
 
 ## Como rodar
-
-### Opção 1: Interface visual (recomendado)
-
-```matlab
->> gui_waypoints
-```
-
-A GUI carrega automaticamente todos os parâmetros. Basta clicar no mapa para posicionar waypoints, ajustar altitude e velocidade, e clicar **SIMULAR**.
-
-### Opção 2: Via linha de comando
 
 1. Na raiz do repositório, rodar `inicializar` (carrega parâmetros, ganhos e waypoints).
 2. Abrir `guiagem/NL_guidance.slx` no Simulink.
@@ -36,16 +25,6 @@ A GUI carrega automaticamente todos os parâmetros. Basta clicar no mapa para po
 >> plot3d_voo
 ```
 
-## Interface Visual (gui_waypoints)
-
-Interface gráfica para definição interativa de waypoints:
-
-- **Mapa 2D clicável** (Norte x Leste): clique para adicionar waypoints
-- **Tabela editável**: ajuste fino de coordenadas, altitude e velocidade
-- **Campos de configuração**: altitude e velocidade padrão para novos WPs, raio de aceitação
-- **Botão Simular**: executa automaticamente a inicialização, simulação e plotagem 3D
-- WP1 é fixo na origem (posição inicial da aeronave)
-
 ## Missões disponíveis
 
 Selecionar via variável `missao` no `inicializar.m`:
@@ -54,7 +33,7 @@ Selecionar via variável `missao` no `inicializar.m`:
 |--------|-----------|
 | 1 | Voo reto nivelado (teste de controle puro, sem transições de WP) |
 | 2 | Triângulo com altitude constante (4 waypoints a 100m) |
-| 3 | Triângulo com variação de altitude (100m → 150m → 70m → 100m) |
+| 3 | Triângulo com variação de altitude (100m → 120m → 90m → 100m) |
 
 ## Arquitetura
 

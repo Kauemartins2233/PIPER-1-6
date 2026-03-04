@@ -38,15 +38,7 @@ PIPER-1-6-main/
 >> % Simular (Ctrl+T)
 ```
 
-### Simulação de guiagem — Interface visual (recomendado)
-
-```matlab
->> gui_waypoints                                       % abre interface visual
-```
-
-Clique no mapa para posicionar waypoints, ajuste altitude e velocidade, e clique **SIMULAR**.
-
-### Simulação de guiagem — Linha de comando
+### Simulação de guiagem (NL_guidance.slx)
 
 ```matlab
 >> inicializar                                         % carrega workspace
