@@ -14,5 +14,7 @@ C_lat = [0.0662 0 0 0 0; 0 1 0 0 0; 0 0 1 0 0; 0 0 0 1 0; 0 0 0 0 1];
 
 D_lat = zeros(5,2);
 
-Xe_long = [15,-1.8343,0,-0.1217,-100];
+% Equilibrio das SAIDAS (y = C*x), nao dos estados.
+% C_long(5,:) = [0 0 0 0 -1], entao y5 = -xD = +100 (altitude positiva).
+Xe_long = [15,-1.8343,0,-0.1217,100];
 Xe_lat = [0,0,0,0,0];

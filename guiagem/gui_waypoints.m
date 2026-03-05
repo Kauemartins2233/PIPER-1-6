@@ -11,56 +11,31 @@ function gui_waypoints()
 
     %% ========== Inicialização ==========
     rootDir = fileparts(fileparts(mfilename('fullpath')));  % raiz do projeto
-    addpath(fullfile(rootDir, 'modelos', 'Não Linear'));
-    addpath(fullfile(rootDir, 'guiagem'));
 
-    % Carregar parâmetros da aeronave
-    matFile = fullfile(rootDir, 'modelos', 'Não Linear', 'Sato_longitudinal_Piper_1_6.mat');
-    dados = load(matFile);
-    par_aero = dados.par_aero;
-    par_prop = dados.par_prop;
-    par_gen  = dados.par_gen;
+    % Rodar inicializar.m no base workspace (carrega TODOS os parâmetros)
+    oldDir = pwd;
+    cd(rootDir);
+    evalin('base', 'inicializar');
+    cd(oldDir);
 
-    % Estado de equilíbrio (mesmo conteúdo de equilibrium.m)
-    VT = 15;
-    Theta = -0.121684;
-    U = VT;
-    V = 0;
-    W = VT * tan(Theta);
-    Xe = [U;V;W;0;0;0;0;Theta;0;0;0;-100];
-    Ue = [0.491387; 0.015456; 0; 0];
-    h_eq = -Xe(12);  % altitude de equilíbrio = 100m
-
-    % Ganhos PID (mesmos do inicializar.m)
-    C_alt.Kp = 0.596304245000559;
-    C_alt.Ki = 0.356254495459697;
-    C_alt.Kd = -0.0141697733728916;
-    C_alt.N  = 6.17157424867561;
-
-    C_theta.Kp = 20.3142831421082;
-    C_theta.Ki = 22.5973845921282;
-    C_theta.Kd = 1.76724278063426;
-    C_theta.N  = 1159.39165466191;
-
-    C_vel.Kp = 0.0786752433250596;
-    C_vel.Ki = 0.0200000000000000;
-    C_vel.Kd = 0.0151687829718727;
-    C_vel.N  = 77.0155336495376;
-
-    C_phi.Kp = 26.7874562402529;
-    C_phi.Ki = 13.1675046432808;
-    C_phi.Kd = -0.0875715773472267;
-    C_phi.N  = 305.892129064194;
-
-    Kq = 0.1;
-    Kp_gain = 0.119;  % SAS rolamento
-    Kr = 0.15;
-
-    % Compatibilidade
-    INPUTS    = Ue';
-    TrimInput = Ue';
-    Kp_sas    = Kp_gain;
-    Xe_init   = Xe;
+    % Importar variáveis necessárias do base workspace
+    par_aero  = evalin('base', 'par_aero');
+    par_prop  = evalin('base', 'par_prop');
+    par_gen   = evalin('base', 'par_gen');
+    Xe        = evalin('base', 'Xe');
+    Ue        = evalin('base', 'Ue');
+    Xe_init   = evalin('base', 'Xe_init');
+    C_alt     = evalin('base', 'C_alt');
+    C_theta   = evalin('base', 'C_theta');
+    C_vel     = evalin('base', 'C_vel');
+    C_phi     = evalin('base', 'C_phi');
+    Kq        = evalin('base', 'Kq');
+    Kp        = evalin('base', 'Kp');
+    Kr        = evalin('base', 'Kr');
+    INPUTS    = evalin('base', 'INPUTS');
+    TrimInput = evalin('base', 'TrimInput');
+    Kp_sas    = evalin('base', 'Kp_sas');
+    h_eq      = evalin('base', 'h_eq');
 
     %% ========== Dados dos Waypoints ==========
     % WP1 fixo na posição inicial (0, 0, h_eq, 15)
@@ -310,7 +285,7 @@ function gui_waypoints()
             assignin('base', 'C_vel',   C_vel);
             assignin('base', 'C_phi',   C_phi);
             assignin('base', 'Kq',      Kq);
-            assignin('base', 'Kp',      Kp_gain);
+            assignin('base', 'Kp',      Kp);
             assignin('base', 'Kr',      Kr);
 
             % Compatibilidade
