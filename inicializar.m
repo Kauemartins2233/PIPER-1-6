@@ -134,7 +134,7 @@ h_eq = -Xe(12);  % altitude de equilibrio
 % 1 = voo reto (teste de controle puro, sem transicoes de WP)
 % 2 = triangulo (mesma altitude)
 % 3 = triangulo com variacao de altitude
-missao = 3;
+missao = 1;
 
 switch missao
     case 1
