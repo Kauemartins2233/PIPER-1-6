@@ -54,15 +54,15 @@ Os ganhos são carregados do workspace via `inicializar.m`. São os mesmos valor
 | Malha | Tipo | P | I | D | N | Sat |
 |-------|------|---|---|---|---|-----|
 | Altitude Hold | PID | 0.596 | 0.356 | -0.0142 | 6.17 | [-0.17, 0.26] |
-| Pitch (Atitude) | PID | 20.31 | 22.60 | 1.767 | 1159.4 | sem |
+| Pitch (Atitude) | PID | 20.31 | 22.60 | 1.767 | 20 | sem |
 | SAS Arfagem | Ganho | Kq = 0.1 | | | | |
-| Velocidade | PID | -0.0787 | -0.0200 | -0.0152 | 77.0 | sem |
+| Velocidade | PID | -0.0787 | -0.0200 | -0.0152 | 20 | sem |
 
 ### Látero-direcional
 
 | Malha | Tipo | P | I | D | N | Sat |
 |-------|------|---|---|---|---|-----|
-| Roll (Bank Angle) | PID | 26.79 | 13.17 | -0.0876 | 305.9 | [-0.43, 0.43] |
+| Roll (Bank Angle) | PID | 26.79 | 13.17 | -0.0876 | 20 | [-0.43, 0.43] |
 | SAS Rolamento | Ganho | Kp = 0.119 | | | | |
 | Heading -> phi | Ganho | 0.8 | | | | |
 | Amortecedor Guinada | Ganho + Washout | Kr = 0.15, filtro s/(s+1) | | | | |

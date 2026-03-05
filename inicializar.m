@@ -70,7 +70,7 @@ C_alt.N  = 6.17157424867561;
 C_theta.Kp = 20.3142831421082;
 C_theta.Ki = 22.5973845921282;
 C_theta.Kd = 1.76724278063426;
-C_theta.N  = 1159.39165466191;
+C_theta.N  = 20;  
 
 % Velocidade: VT_ref -> delta_T
 % NOTA: No modeloNL1.slx os ganhos sao negativos E o Sum usa |+-
@@ -79,9 +79,9 @@ C_theta.N  = 1159.39165466191;
 % Aqui usamos ganhos POSITIVOS para obter o comportamento correto:
 % VT < VT_ref -> erro > 0 -> PID > 0 -> mais throttle.
 C_vel.Kp = 0.0786752433250596;
-C_vel.Ki = 0.0200000000000000;   % Reduzido (era 0.0652) - evita acumulo de throttle
+C_vel.Ki = 0.0200000000000000;   
 C_vel.Kd = 0.0151687829718727;
-C_vel.N  = 77.0155336495376;
+C_vel.N  = 20;  
 
 % SAS Arfagem (amortecimento de q)
 Kq = 0.1;
@@ -92,7 +92,7 @@ Kq = 0.1;
 C_phi.Kp = 26.7874562402529;
 C_phi.Ki = 13.1675046432808;
 C_phi.Kd = -0.0875715773472267;
-C_phi.N  = 305.892129064194;
+C_phi.N  = 20; 
 % Saturacao: [-0.43, 0.43] rad (hardcoded no modelo)
 
 % SAS Rolamento (amortecimento de p)
@@ -126,7 +126,7 @@ switch missao
         % Voo reto nivelado — WP2 muito longe, heading ~0
         WPs = [
             0,     0, h_eq, 15;     % WP1: partida
-            50000, 0, h_eq, 15;     % WP2: Norte (nunca alcanca)
+            500, 0, h_eq, 15;     % WP2: Norte (nunca alcanca)
         ];
     case 2
         % Triangulo grande (altitude constante)

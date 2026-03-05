@@ -35,7 +35,7 @@ VT_ref ──> Sum(+-) ──> PID(s) ──> delta_T
 | Malha | Funcao | Tipo | P | I | D | N | Saturacao |
 |-------|--------|------|---|---|---|---|-----------|
 | Altitude Hold | h_ref -> theta_ref | PID | 0.596 | 0.356 | -0.0142 | 6.17 | [-0.17, 0.26] |
-| Pitch (Atitude) | theta_ref -> delta_e | PID | 20.31 | 22.60 | 1.767 | 1159.4 | sem |
+| Pitch (Atitude) | theta_ref -> delta_e | PID | 20.31 | 22.60 | 1.767 | 20 | sem |
 | SAS Arfagem | Amortecimento de q | Ganho | Kq = 0.1 | - | - | - | - |
 | Velocidade | VT_ref -> delta_T | PID | -0.528 | -0.431 | -0.0363 | 11348.4 | sem |
 
@@ -55,7 +55,7 @@ psi_ref ──> Sum(+-) ──> Gain(0.8) ──> Sum(+-) ──> PID(s) ──>
 
 | Malha | Funcao | Tipo | P | I | D | N | Saturacao |
 |-------|--------|------|---|---|---|---|-----------|
-| Roll (Bank Angle) | phi_ref -> delta_a | PID | 26.79 | 13.17 | -0.0876 | 305.9 | sem |
+| Roll (Bank Angle) | phi_ref -> delta_a | PID | 26.79 | 13.17 | -0.0876 | 20 | sem |
 | SAS Rolamento | Amortecimento de p | Ganho | Kp = 0.119 | - | - | - | - |
 | Heading -> phi | psi_ref -> phi_ref | Ganho | 0.8 | - | - | - | - |
 | Amortecedor Guinada | Washout de r | Ganho + Filtro | Kr = 0.1 | - | - | - | s/(s+1) |
