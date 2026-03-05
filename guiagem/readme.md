@@ -136,15 +136,15 @@ Os ganhos são carregados do workspace via `inicializar.m`. Os mesmos valores ab
 | Malha | Variável | Tipo | P | I | D | N | Sat |
 |-------|----------|------|---|---|---|---|-----|
 | Altitude Hold | `C_alt` | PID | 0.596 | 0.356 | -0.0142 | 6.17 | [-0.17, 0.26] |
-| Pitch (Atitude) | `C_theta` | PID | 20.31 | 22.60 | 1.767 | 1159.4 | sem |
+| Pitch (Atitude) | `C_theta` | PID | 20.31 | 22.60 | 1.767 | 20 | sem |
 | SAS Arfagem | `Kq` | Ganho | 0.1 | - | - | - | - |
-| Velocidade | `C_vel` | PID | 0.0787 | 0.0200 | 0.0152 | 77.0 | sem |
+| Velocidade | `C_vel` | PID | 0.0787 | 0.0200 | 0.0152 | 20 | sem |
 
 ### Látero-direcional
 
 | Malha | Variável | Tipo | P | I | D | N | Sat |
 |-------|----------|------|---|---|---|---|-----|
-| Roll (Bank Angle) | `C_phi` | PID | 26.79 | 13.17 | -0.0876 | 305.9 | [-0.43, 0.43] |
+| Roll (Bank Angle) | `C_phi` | PID | 26.79 | 13.17 | -0.0876 | 20 | [-0.43, 0.43] |
 | Heading | - | P | 2.5 | 0 | 0 | - | [-1.0, 1.0] |
 | SAS Rolamento | `Kp` | Ganho | 0.119 | - | - | - | - |
 | Heading -> phi | - | Ganho | 0.3 | - | - | - | - |
