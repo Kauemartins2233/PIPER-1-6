@@ -19,7 +19,7 @@ Sistema de guiagem por waypoints integrado ao modelo não linear 6-DOF com pilot
 >> gui_waypoints
 ```
 
-A GUI carrega automaticamente todos os parâmetros. Basta clicar no mapa para posicionar waypoints, ajustar altitude e velocidade, e clicar **SIMULAR**.
+A GUI chama `inicializar.m` automaticamente para carregar todos os parâmetros do workspace. Basta clicar no mapa para posicionar waypoints, ajustar altitude e velocidade, e clicar **SIMULAR**.
 
 ### Opção 2: Via linha de comando
 
@@ -38,7 +38,7 @@ A GUI carrega automaticamente todos os parâmetros. Basta clicar no mapa para po
 
 ## Interface Visual (gui_waypoints)
 
-Interface gráfica para definição interativa de waypoints. Não requer rodar `inicializar.m` antes — a GUI carrega todos os parâmetros automaticamente.
+Interface gráfica para definição interativa de waypoints. A GUI executa `inicializar.m` internamente para carregar todos os parâmetros necessários.
 
 ### Funcionalidades
 
@@ -85,12 +85,15 @@ Selecionar via variável `missao` no `inicializar.m`:
                  +----------------+             |
                                                 v
                 +-------------------------------------------+
-                |              Autopilot                     |
+                |              Autopilot2                    |
                 |  Altitude Hold --> Pitch Control --> Elev  |
                 |  Velocity Control ----------------> Thr   |
                 |  Heading --> Roll Control ---------> Ail   |
                 |  Washout Guinada -----------------> Rud   |
                 +-----------------+-------------------------+
+                                  v
+                          Saturações dos atuadores
+                   Sat_Throttle, Sat_Elevator, Sat_Aileron, Sat_Rudder
                                   v
                 +----------------------------------+
                 |  Piper_1_6 (sfunction_piper)     |
@@ -133,22 +136,31 @@ Os ganhos são carregados do workspace via `inicializar.m`. Os mesmos valores ab
 
 ### Longitudinal
 
-| Malha | Variável | Tipo | P | I | D | N | Sat |
-|-------|----------|------|---|---|---|---|-----|
-| Altitude Hold | `C_alt` | PID | 0.596 | 0.356 | -0.0142 | 6.17 | [-0.17, 0.26] |
-| Pitch (Atitude) | `C_theta` | PID | 20.31 | 22.60 | 1.767 | 20 | sem |
-| SAS Arfagem | `Kq` | Ganho | 0.1 | - | - | - | - |
-| Velocidade | `C_vel` | PID | 0.0787 | 0.0200 | 0.0152 | 20 | sem |
+| Malha | Variável | Tipo | P | I | D | N | Saturação | Anti-Windup |
+|-------|----------|------|---|---|---|---|-----------|-------------|
+| Altitude Hold | `C_alt` | PID | 0.08 | 0.02 | 0.0 | 20 | [-0.17, 0.26] | clamping |
+| Pitch (Atitude) | `C_theta` | PID | 0.260 | 0.143 | 0.0 | 20 | [-0.4363, 0.4363] | clamping |
+| SAS Arfagem | `Kq` | Ganho | 0.1 | - | - | - | - | - |
+| Velocidade | `C_vel` | PID | 0.05 | 0.02 | 0.01 | 20 | [-0.49, 0.51] | clamping |
 
 ### Látero-direcional
 
-| Malha | Variável | Tipo | P | I | D | N | Sat |
-|-------|----------|------|---|---|---|---|-----|
-| Roll (Bank Angle) | `C_phi` | PID | 26.79 | 13.17 | -0.0876 | 20 | [-0.43, 0.43] |
-| Heading | - | P | 2.5 | 0 | 0 | - | [-1.0, 1.0] |
-| SAS Rolamento | `Kp` | Ganho | 0.119 | - | - | - | - |
-| Heading -> phi | - | Ganho | 0.3 | - | - | - | - |
-| Amortecedor Guinada | `Kr` | Ganho + Washout | 0.15 | - | - | - | filtro s/(s+1) |
+| Malha | Variável | Tipo | P | I | D | N | Saturação | Anti-Windup |
+|-------|----------|------|---|---|---|---|-----------|-------------|
+| Roll (Bank Angle) | `C_phi` | PID | 10.0 | 0.0 | 0.0 | 20 | [-0.43, 0.43] | back-calculation |
+| Heading | - | P | 2.5 | 0 | 0 | - | [-1.0, 1.0] | - |
+| SAS Rolamento | `Kp` | Ganho | 0.119 | - | - | - | - | - |
+| Heading → phi | - | Ganho | 0.3 | - | - | - | - | - |
+| Amortecedor Guinada | `Kr` | Ganho + Washout | 0.15 | - | - | - | filtro s/(s+1) | - |
+
+### Saturações dos atuadores
+
+| Atuador | Limites | Unidade |
+|---------|---------|---------|
+| Sat_Throttle | [0, 1] | adimensional |
+| Sat_Elevator | [-0.4363, 0.4363] | rad (±25°) |
+| Sat_Aileron | [-0.4363, 0.4363] | rad (±25°) |
+| Sat_Rudder | [-0.4363, 0.4363] | rad (±25°) |
 
 ## Dependências
 

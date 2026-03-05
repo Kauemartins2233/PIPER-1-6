@@ -51,21 +51,30 @@ Os ganhos são carregados do workspace via `inicializar.m`. São os mesmos valor
 
 ### Longitudinal
 
-| Malha | Tipo | P | I | D | N | Sat |
-|-------|------|---|---|---|---|-----|
-| Altitude Hold | PID | 0.596 | 0.356 | -0.0142 | 6.17 | [-0.17, 0.26] |
-| Pitch (Atitude) | PID | 20.31 | 22.60 | 1.767 | 20 | sem |
-| SAS Arfagem | Ganho | Kq = 0.1 | | | | |
-| Velocidade | PID | -0.0787 | -0.0200 | -0.0152 | 20 | sem |
+| Malha | Tipo | P | I | D | N | Saturação | Anti-Windup |
+|-------|------|---|---|---|---|-----------|-------------|
+| Altitude Hold | PID | 0.08 | 0.02 | 0.0 | 20 | [-0.17, 0.26] | clamping |
+| Pitch (Atitude) | PID | 0.260 | 0.143 | 0.0 | 20 | [-0.4363, 0.4363] | clamping |
+| SAS Arfagem | Ganho | Kq = 0.1 | | | | | |
+| Velocidade | PID | 0.05 | 0.02 | 0.01 | 20 | [-0.49, 0.51] | clamping |
 
 ### Látero-direcional
 
-| Malha | Tipo | P | I | D | N | Sat |
-|-------|------|---|---|---|---|-----|
-| Roll (Bank Angle) | PID | 26.79 | 13.17 | -0.0876 | 20 | [-0.43, 0.43] |
-| SAS Rolamento | Ganho | Kp = 0.119 | | | | |
-| Heading -> phi | Ganho | 0.8 | | | | |
-| Amortecedor Guinada | Ganho + Washout | Kr = 0.15, filtro s/(s+1) | | | | |
+| Malha | Tipo | P | I | D | N | Saturação | Anti-Windup |
+|-------|------|---|---|---|---|-----------|-------------|
+| Roll (Bank Angle) | PID | 10.0 | 0.0 | 0.0 | 20 | [-0.43, 0.43] | back-calculation |
+| SAS Rolamento | Ganho | Kp = 0.119 | | | | | |
+| Heading → phi | Ganho | 0.3 | | | | | |
+| Amortecedor Guinada | Ganho + Washout | Kr = 0.15, filtro s/(s+1) | | | | | |
+
+### Saturações dos atuadores
+
+| Atuador | Limites | Unidade |
+|---------|---------|---------|
+| Sat_Throttle | [0, 1] | adimensional |
+| Sat_Elevator | [-0.4363, 0.4363] | rad (±25°) |
+| Sat_Aileron | [-0.4363, 0.4363] | rad (±25°) |
+| Sat_Rudder | [-0.4363, 0.4363] | rad (±25°) |
 
 Ver diagramas de blocos completos em `controle/readme.md`.
 

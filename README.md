@@ -5,7 +5,7 @@ Modelagem, simulação e controle da aeronave **Piper J-3 Cub** em escala 1/6.
 ## Estrutura do repositório
 
 ```
-PIPER-1-6-main/
+PIPER-1-6/
   inicializar.m       -- Script principal (carrega parâmetros, ganhos e waypoints)
   modelos/             -- Modelos matemáticos (linear e não linear 6-DOF)
     Linear/            -- Matrizes de espaço de estados (A, B, C, D)
