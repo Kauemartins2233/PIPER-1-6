@@ -25,11 +25,16 @@ clear; clc;
 %% ========== Paths ==========
 rootDir = fileparts(mfilename('fullpath'));
 addpath(fullfile(rootDir, 'modelos', 'Não Linear'));  % sfunction_piper, aerodynamics, dyn_rigidbody, etc.
+addpath(fullfile(rootDir, 'modelos', 'Linear'));       % MATRIZES.m (A_long, B_long, etc.)
 addpath(fullfile(rootDir, 'guiagem'));                 % plot3d_voo, etc.
 
 %% ========== Parametros da Aeronave ==========
 % Carrega par_aero, par_prop, par_gen
 load('Sato_longitudinal_Piper_1_6.mat');
+
+%% ========== Matrizes do Modelo Linear ==========
+% Carrega A_long, B_long, C_long, D_long, A_lat, B_lat, C_lat, D_lat
+MATRIZES;
 
 %% ========== Estado de Equilibrio ==========
 equilibrium;  % Define Xe (12x1) e Ue (4x1)
@@ -60,17 +65,22 @@ end
 % --- Longitudinal ---
 
 % Altitude Hold: h_ref -> theta_ref
-% Saturacao: [-0.17, 0.26] rad (hardcoded no modelo)
-C_alt.Kp = 0.596304245000559;
-C_alt.Ki = 0.356254495459697;
-C_alt.Kd = -0.0141697733728916;
-C_alt.N  = 6.17157424867561;
+% Saturacao: [-0.17, 0.26] rad (anti-windup no PID do Simulink)
+% AJUSTADO: ganhos reduzidos para evitar saturacao com erros pequenos
+% Com Kp=0.596, erro de 0.3m ja saturava o PID -> oscilacao de theta
+C_alt.Kp = 0.08;
+C_alt.Ki = 0.02;
+C_alt.Kd = 0.0;
+C_alt.N  = 20;
 
 % Pitch (Atitude): theta_ref -> delta_e
-C_theta.Kp = 20.3142831421082;
-C_theta.Ki = 22.5973845921282;
-C_theta.Kd = 1.76724278063426;
-C_theta.N  = 20;  
+% AJUSTADO: ganhos reduzidos para limites fisicos do Piper 1/6 (+/-25 deg)
+% Valores anteriores (Projeto 1): Kp=20.31, Ki=22.60, Kd=1.77
+% Calculados via pidtune com bw=2.0 rad/s, PM=60 deg, max elev ~4 deg
+C_theta.Kp = 0.260;
+C_theta.Ki = 0.143;
+C_theta.Kd = 0.0;
+C_theta.N  = 20;
 
 % Velocidade: VT_ref -> delta_T
 % NOTA: No modeloNL1.slx os ganhos sao negativos E o Sum usa |+-
@@ -78,10 +88,10 @@ C_theta.N  = 20;
 % controlador INVERTIDO (reduz throttle quando esta lento = instavel).
 % Aqui usamos ganhos POSITIVOS para obter o comportamento correto:
 % VT < VT_ref -> erro > 0 -> PID > 0 -> mais throttle.
-C_vel.Kp = 0.0786752433250596;
-C_vel.Ki = 0.0200000000000000;   
-C_vel.Kd = 0.0151687829718727;
-C_vel.N  = 20;  
+C_vel.Kp = 0.05;
+C_vel.Ki = 0.02;
+C_vel.Kd = 0.01;
+C_vel.N  = 20;
 
 % SAS Arfagem (amortecimento de q)
 Kq = 0.1;
@@ -89,10 +99,15 @@ Kq = 0.1;
 % --- Latero-direcional ---
 
 % Roll (Bank Angle Hold): phi_ref -> delta_a
-C_phi.Kp = 26.7874562402529;
-C_phi.Ki = 13.1675046432808;
-C_phi.Kd = -0.0875715773472267;
-C_phi.N  = 20; 
+% AJUSTADO: ganhos reduzidos para limites fisicos do Piper 1/6 (+/-25 deg)
+% Valores anteriores (Projeto 1): Kp=26.79, Ki=13.17, Kd=-0.088
+% NOTA: a planta tem baixa efetividade de aileron (B_lat(2,1)=3.296),
+% entao saturacao transitoria e esperada durante manobras grandes.
+% Anti-windup (clamping) habilitado no bloco PID do Simulink.
+C_phi.Kp = 10.0;
+C_phi.Ki = 0.0;
+C_phi.Kd = 0.0;
+C_phi.N  = 20;
 % Saturacao: [-0.43, 0.43] rad (hardcoded no modelo)
 
 % SAS Rolamento (amortecimento de p)
