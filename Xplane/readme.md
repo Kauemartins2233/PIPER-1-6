@@ -38,8 +38,7 @@ addpath('Xplane/XPlaneConnect-master/MATLAB');
 ### 3. Executar
 
 1. Abra o X-Plane com a aeronave Piper J-3 Cub
-2. Execute `inicializar.m` no MATLAB para carregar os parâmetros
-3. Abra e rode `teste.slx`
+2. Abra e rode `teste.slx`
 
 ## Comunicação
 
