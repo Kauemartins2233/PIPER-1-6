@@ -68,6 +68,7 @@ function sensors = read_xplane(~)
         phi   = result(5) * d2r;
         p     = result(6) * d2r;
         psi   = result(7) * d2r;
+        psi   = atan2(sin(psi), cos(psi));  % wrap p/ [-pi,pi]
         r     = result(8) * d2r;
 
         % Posicao OpenGL -> NED (verificado empiricamente)

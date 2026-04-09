@@ -18,3 +18,14 @@ slprj/
 # OS
 .DS_Store
 Thumbs.db
+
+# Ignorar todos arquivos na raiz (mantem subpastas e o proprio .gitignore)
+/*
+!/*/
+!/.gitignore
+
+# Pastas ignoradas
+DH/
+Arduino/
+teste/
+arduino_controlador_ert_rtw/
