@@ -6,10 +6,13 @@ Sistema de guiagem por waypoints integrado ao modelo não linear 6-DOF com pilot
 
 | Arquivo | Descrição |
 |---------|-----------|
-| `NL_guidance.slx` | Modelo Simulink: guiagem + controle + planta não linear |
+| `NL_guidance.slx` | Modelo Simulink: guiagem LOS + controle + planta não linear |
 | `gui_waypoints.m` | Interface visual para inserção de waypoints e simulação automática |
-| `plot3d_voo.m` | Plota trajetória 3D após simulação |
+| `plot3d_voo.m` | Plota trajetória 3D pós-simulação |
 | `plots_guidance.mlx` | Live Script de plotagem para validação (3 testes) |
+| `find_trim.m` | Busca alternativa de trim via `fminsearch` (legado/teste) |
+| `trim_cost_fn.m` | Função custo usada por `find_trim.m` |
+| `analise_sim.m` | Análise pós-sim: estatísticas e checagens dos controladores |
 
 ## Como rodar
 

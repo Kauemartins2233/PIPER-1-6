@@ -9,21 +9,36 @@ function U = hil_serial_step(sensors15)
 %
 % Mantem o serialport aberto via variavel persistente. Fecha/reabre e
 % descarta buffer na primeira chamada de cada simulacao.
+%
+% Tambem grava hil_log.csv com cada frame (sensores + U + t_sim) na pasta
+% deste arquivo. Use view_hil_log para plotar. O CSV e' truncado a cada
+% nova sim. Para fechar o arquivo apos a sim: clear hil_serial_step.
 
-persistent sp fail_count
+persistent sp fail_count log_fid log_cleaner step_count
 if isempty(fail_count), fail_count = 0; end
+if isempty(step_count), step_count = 0; end
 MAX_FAILS = 5;   % passos consecutivos sem resposta antes de abortar
 
 if isempty(sp) || ~isvalid(sp)
     try
-        sp = serialport('COM3', 115200, 'Timeout', 1);
+        sp = serialport('COM4', 115200, 'Timeout', 1);
     catch ME
         error('hil_serial_step:noPort', ...
-            'Arduino nao encontrado em COM3 (%s). Simulacao abortada.', ME.message);
+            'Arduino nao encontrado em COM4 (%s). Simulacao abortada.', ME.message);
     end
     pause(3);           % DTR reset do Mega
     flush(sp);
     fail_count = 0;
+
+    % --- Abre log CSV (truncate); fecha automaticamente em "clear" ---
+    log_path = fullfile(fileparts(mfilename('fullpath')), 'hil_log.csv');
+    log_fid  = fopen(log_path, 'w');
+    if log_fid > 0
+        fprintf(log_fid, ['t,p,q,r,u,v,w,phi,theta,psi,VT,alpha,beta,' ...
+                          'sens13,sens14,alt,thr,elev,ail,rud\n']);
+        log_cleaner = onCleanup(@() local_close(log_fid)); %#ok<NASGU>
+    end
+    step_count = 0;
 end
 
 ok = false;
@@ -52,4 +67,18 @@ if ~ok
 else
     fail_count = 0;
 end
+
+% --- log do frame (sensores enviados + U recebido) ---
+if ~isempty(log_fid) && log_fid > 0
+    t_sim = step_count * 0.01;
+    fprintf(log_fid, '%.3f', t_sim);
+    fprintf(log_fid, ',%.6g', sensors15);
+    fprintf(log_fid, ',%.6g,%.6g,%.6g,%.6g\n', U(1), U(2), U(3), U(4));
+    step_count = step_count + 1;
+end
+end
+
+
+function local_close(fid)
+try, fclose(fid); catch, end
 end

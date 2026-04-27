@@ -2,6 +2,11 @@
 slprj/
 *.slxc
 
+# Artefatos gerados pelos testes HIL
+Arduino/HIL_simulink/hil_log.csv
+Arduino/HIL_simulink/hil_log_view.png
+Arduino/HIL_simulink/manobras_hil_v1.png
+
 # MATLAB
 *.asv
 *.m~

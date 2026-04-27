@@ -28,33 +28,33 @@ referência para validação do controle puro.
 
 ```
 Arduino/
-├── README.md                              (este arquivo)
+├── README.md                                  (este arquivo)
 │
-├── HIL_simulink/                          ← v1: só controle
-│   ├── README.md
+├── HIL_simulink/                              ← v1: só controle (validado)
 │   ├── arduino_controlador_manual/
-│   │   └── arduino_controlador_manual.ino    (firmware PIDs Tustin + SAS)
-│   ├── modeloNL1_HIL.slx                     (planta NL + ponte serial)
-│   ├── hil_serial_step.m                     (ponte MATLAB↔Mega)
-│   └── tools/
-│       ├── criar_modeloNL_HIL.m              (gera o .slx do zero)
-│       ├── fix_sample_time.m                 (fix do bug RK4)
-│       ├── count_calls.m                     (debug de chamadas/passo)
-│       ├── adicionar_scopes.m                (adiciona Scopes ao .slx)
-│       ├── run_hil_test.m                    (sim batch)
-│       └── test_transport_delay.m            (experimento delay)
+│   │   └── arduino_controlador_manual.ino     ← firmware: PIDs Tustin + SAS
+│   ├── modeloNL1_HIL.slx                      ← Simulink: planta NL + ponte
+│   ├── hil_serial_step.m                      ← bridge USB (com log CSV)
+│   ├── ping_arduino.m                         ← teste 1: sanity check (~5 s)
+│   ├── run_hil_test.m                         ← teste 2: sim no trim (~50 s)
+│   ├── run_hil_manobra.m                      ← teste 3: 3 manobras (~3 min)
+│   └── view_hil_log.m                         ← plota hil_log.csv
 │
-└── guiagem embarcada/                     ← v2: controle + guiagem
+└── guiagem embarcada/                         ← v2: controle + guiagem LOS
     ├── README.md
     ├── arduino_guiagem_controle/
-    │   └── arduino_guiagem_controle.ino      (firmware + LOS + WP storage)
-    ├── modelo_HIL_guiagem.slx                (planta NL + ponte + tap xN,xE)
-    ├── hil_serial_step_guiagem.m             (ponte + upload WPs)
-    ├── gui_waypoints_HIL.m                   (GUI pré-missão)
+    │   └── arduino_guiagem_controle.ino       ← firmware: PIDs + LOS + WPs
+    ├── modelo_HIL_guiagem.slx                 ← Simulink: planta + tap xN,xE
+    ├── hil_serial_step_guiagem.m              ← bridge + upload de WPs
+    ├── gui_waypoints_HIL.m                    ← GUI pré-missão
     └── tools/
-        ├── criar_modelo_HIL_guiagem.m        (gera o .slx do zero)
-        └── fix_sample_time.m                 (fix do bug RK4)
+        ├── criar_modelo_HIL_guiagem.m         ← regenera o .slx do zero
+        └── fix_sample_time.m                  ← fix do bug RK4 (após regenerar)
 ```
+
+> **Atenção:** a v2 tem uma divergência conhecida no ganho `K_PSI` do
+> heading hold (firmware: 0.3 vs comentário: 0.8). Confirmar antes de
+> usar pra missões.
 
 ## Uso rápido
 
@@ -77,24 +77,36 @@ Grave o firmware correspondente antes:
 
 ```
 arduino-cli compile --fqbn arduino:avr:mega Arduino/HIL_simulink/arduino_controlador_manual
-arduino-cli upload  --fqbn arduino:avr:mega -p COM3 Arduino/HIL_simulink/arduino_controlador_manual
+arduino-cli upload  --fqbn arduino:avr:mega -p COM4 Arduino/HIL_simulink/arduino_controlador_manual
 ```
 
 ou, pra v2:
 
 ```
 arduino-cli compile --fqbn arduino:avr:mega "Arduino/guiagem embarcada/arduino_guiagem_controle"
-arduino-cli upload  --fqbn arduino:avr:mega -p COM3 "Arduino/guiagem embarcada/arduino_guiagem_controle"
+arduino-cli upload  --fqbn arduino:avr:mega -p COM4 "Arduino/guiagem embarcada/arduino_guiagem_controle"
 ```
 
 ## Hardware
 
-- Arduino Mega 2560 em **COM3**.
-- Cabo USB direto no PC, nada de shield.
+- Arduino Mega 2560 via cabo USB direto no PC, nada de shield.
 - Firmware gravado pela Arduino IDE ou `arduino-cli`. Sem libs externas.
+- **Porta COM:** o Windows atribui automaticamente. Veja em
+  `Gerenciador de Dispositivos → Portas (COM e LPT)` qual é a sua
+  ("Arduino Mega 2560 (COMx)"). No PowerShell:
+
+  ```powershell
+  Get-PnpDevice -Class Ports -PresentOnly |
+      Where-Object FriendlyName -match 'Arduino' |
+      Select FriendlyName
+  ```
+
+  Se não for **COM4**, edite a linha 19 de `hil_serial_step.m` (e a v2
+  equivalente). Os scripts atuais assumem COM4.
 - **Não abra o Serial Monitor** com a sim rodando — o protocolo é
   binário e o Monitor segura a porta.
-- `inicializar.m` libera COM3 + `clear hil_serial_step*` no início.
+- Entre runs, se a porta ficar travada, rode `clear hil_serial_step` no
+  Command Window do MATLAB e/ou desconecte/reconecte o cabo USB.
 
 ## Protocolo serial
 
@@ -170,6 +182,92 @@ regenerar com `criar_*`, rode em seguida `fix_sample_time` da pasta
 `tools/` correspondente.
 
 Com o fix: Alt std nos últimos 10 s ≈ 0.01 m.
+
+## Avisos de `SFUNC WARN: NaN/Inf detectado` (benignos)
+
+Durante a simulação `modeloNL1_HIL`, o `sfunction_piper` imprime
+`SFUNC WARN t=...: NaN/Inf detectado! u=[NaN NaN NaN NaN]` a cada passo.
+**Isso não afeta a dinâmica.** O motivo:
+
+- A S-function tem `DirFeedthrough = 0` (saídas 1-15 só dependem do
+  estado).
+- Mas em `case 3` (output) ela ainda computa as derivadas das saídas
+  16-21 (monitoramento) usando `u`. Como `DirFeedthrough=0`, o Simulink
+  não propaga `u` para `mdlOutputs`; ele aparece como NaN.
+- A proteção da própria função (`sys(~isfinite(sys)) = 0`) zera o
+  monitoramento, e a integração real (`case 1`) recebe `u` correto.
+
+Para silenciar, basta remover o cálculo de `Xp = dyn_rigidbody(...)` em
+`case 3` de `modelos/Não Linear/sfunction_piper.m` (linhas 99-103) — as
+saídas 16-21 ficam zeradas, sem impacto no controle.
+
+## Testes prontos (`HIL_simulink/`)
+
+Três scripts auxiliares ajudam a validar a bancada antes de mexer no
+firmware:
+
+### 1. `ping_arduino.m` — sanity check do link serial
+
+Manda 5 frames de sensores no estado de equilíbrio e imprime o que o
+Mega devolve. Útil só pra confirmar que a porta abre, o firmware
+responde e a latência está OK.
+
+```matlab
+>> cd Arduino/HIL_simulink
+>> ping_arduino
+```
+
+Esperado: `thr ≈ 0.51`, `elev ≈ -0.02`, `ail = 0`, `rud = 0`, latência
+~20-30 ms por passo (após o handshake DTR de ~3 s no 1º).
+
+### 2. `run_hil_test.m` — simulação do trim
+
+Roda `modeloNL1_HIL` por 30 s partindo do equilíbrio e reporta std
+dos últimos 10 s. Esperado: `Alt std < 0.001 m`, `VT std < 0.001 m/s`
+(condição "fácil", aeronave já no trim).
+
+```matlab
+>> cd Arduino/HIL_simulink
+>> run_hil_test
+```
+
+### 3. `run_hil_manobra.m` — três cenários transientes
+
+Perturba a condição inicial e mede a resposta do controlador. Gera
+`manobras_hil_v1.png` com Alt(t) e VT(t) para cada cenário:
+
+| # | Perturbação | Alvo |
+|---|---|---|
+| 1 | Alt₀ = 110 m | Alt → 100 m |
+| 2 | VT₀ = 17 m/s | VT → 15.11 m/s |
+| 3 | φ₀ = 20° | φ → 0 |
+
+```matlab
+>> cd Arduino/HIL_simulink
+>> run_hil_manobra
+```
+
+Esperado para o cenário 1 (replica o README clássico):
+
+```
+Alt: 110.00 → min 98.59 → final 100.0  std(últ 10 s) ≈ 0.01 m
+```
+
+### 4. `view_hil_log.m` — inspeção do tráfego serial
+
+`hil_serial_step.m` grava `hil_log.csv` com cada frame trocado com o
+Mega (timestamp, 15 sensores enviados, 4 atuadores recebidos). Útil pra
+verificar exatamente o que o firmware está mandando de volta.
+
+```matlab
+>> run_hil_test                  % gera/atualiza hil_log.csv (~3000 linhas/30s)
+>> clear hil_serial_step         % flush + close do CSV
+>> view_hil_log                  % plota sensores e atuadores em subplots
+```
+
+Colunas do CSV: `t,p,q,r,u,v,w,phi,theta,psi,VT,alpha,beta,sens13,sens14,alt,thr,elev,ail,rud`.
+Truncado a cada nova sim. `clear hil_serial_step` é necessário antes
+de plotar (fecha o file handle e flusha buffers).
 
 ## Convergência v1 (Xe(12) = -110, Ts = 0.01, 30 s)
 

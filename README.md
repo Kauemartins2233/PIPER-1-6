@@ -2,71 +2,115 @@
 
 Modelagem, simulação e controle da aeronave **Piper J-3 Cub** em escala 1/6.
 
+## Aeronave
+
+- Velocidade de cruzeiro: **15 m/s**
+- Altitude de equilíbrio: **100 m**
+- 12 estados: `u, v, w, p, q, r, phi, theta, psi, xN, xE, xD`
+- 4 entradas: `throttle, profundor, aileron, leme`
+
 ## Estrutura do repositório
 
 ```
 PIPER-1-6/
-  inicializar.m       -- Script principal (carrega parâmetros, ganhos e waypoints)
-  modelos/             -- Modelos matemáticos (linear e não linear 6-DOF)
-    Linear/            -- Matrizes de espaço de estados (A, B, C, D)
-    Não Linear/        -- S-Function, dinâmica, aerodinâmica, propulsão
-  trim/                -- Algoritmo de trimagem (equilíbrio via fmincon)
-  controle/            -- Malhas de controle PID (longitudinal e látero-direcional)
-    Linear/            -- Controladores aplicados ao modelo linear
-    Não Linear/        -- Controladores aplicados ao modelo não linear (modeloNL1.slx)
-  guiagem/             -- Sistema de guiagem por waypoints (LOS + autopilot)
-  Arduino/             -- Firmware para ESP32/Arduino (interface X-Plane via UDP)
-  Xplane/              -- Integração com X-Plane (em desenvolvimento)
+├── README.md                  ← este arquivo
+├── inicializar.m              ← script de bootstrap (ganhos, trim, waypoints)
+│
+├── modelos/                   ← modelo matemático da planta
+│   ├── Não Linear/            ←   S-Function 6-DOF + aerodinâmica + propulsão
+│   └── Linear/                ←   matrizes A,B,C,D (linearização para análise)
+│
+├── trim/                      ← cálculo do estado de equilíbrio (fmincon)
+├── controle/                  ← malhas PID em Simulink (não-HIL)
+├── guiagem/                   ← waypoints + LOS + GUI visual
+├── Arduino/                   ← Hardware-in-the-Loop com Arduino Mega
+│   ├── HIL_simulink/          ←   v1: só controle embarcado
+│   └── guiagem embarcada/     ←   v2: controle + guiagem embarcados
+├── Xplane/                    ← integração X-Plane via XPC (UDP)
+│
+├── comparar_*.m               ← scripts de análise comparativa
+├── imagens/                   ← figuras de apresentação
+└── documentos relevantes/     ← dissertações de referência (PDFs)
 ```
 
-## Aeronave
+## Quick-start por módulo
 
-- **Modelo:** Piper J-3 Cub escala 1/6
-- **Velocidade de cruzeiro:** 15 m/s
-- **Altitude de equilíbrio:** 100 m
-- **12 estados:** u, v, w, p, q, r, phi, theta, psi, xN, xE, xD
-- **4 entradas de controle:** throttle, profundor, aileron, leme
-- **S-Function única** (`sfunction_piper.m`): 21 outputs, usada por todos os modelos Simulink
+Cada caminho abaixo é independente — escolha o que você quer fazer.
 
-## Como usar
-
-### Simulação de controle (modeloNL1.slx)
+### 1. Simulação não-linear pura (sem hardware)
 
 ```matlab
->> inicializar                                         % carrega workspace
->> open('controle/Não Linear/modeloNL1.slx')           % abre modelo
->> % Simular (Ctrl+T)
+>> inicializar
+>> open('controle/Não Linear/modeloNL1.slx')           % controle longitudinal+lateral
+>> % Ctrl+T para simular
 ```
 
-### Simulação de guiagem — Interface visual (recomendado)
+### 2. Guiagem por waypoints (com GUI)
 
 ```matlab
->> gui_waypoints                                       % abre interface visual
+>> inicializar
+>> gui_waypoints                                       % clique no mapa, depois SIMULAR
 ```
 
-Clique no mapa para posicionar waypoints, ajuste altitude e velocidade, e clique **SIMULAR**.
-
-### Simulação de guiagem — Linha de comando
+Ou via linha de comando:
 
 ```matlab
->> inicializar                                         % carrega workspace
->> open('guiagem/NL_guidance.slx')                     % abre modelo
->> % Simular (Ctrl+T)
->> plot3d_voo                                          % visualizar trajetória 3D
+>> open('guiagem/NL_guidance.slx')
+>> % Ctrl+T
+>> plot3d_voo                                          % trajetória 3D
 ```
 
-### Trimagem (cálculo de equilíbrio)
+### 3. Trimagem (recálculo do equilíbrio)
 
 ```matlab
 >> cd trim/
->> executar                                            % carrega parâmetros
->> trimagem_piper                                      % executa otimização via fmincon
+>> executar
+>> trimagem_piper                                      % otimização fmincon
 ```
+
+### 4. Hardware-in-the-Loop (HIL) — Arduino Mega
+
+Pré-requisito: gravar
+[Arduino/HIL_simulink/arduino_controlador_manual](Arduino/HIL_simulink/arduino_controlador_manual)
+no Mega 2560 via Arduino IDE. Ver porta COM em
+`Gerenciador de Dispositivos`; ajustar
+[Arduino/HIL_simulink/hil_serial_step.m](Arduino/HIL_simulink/hil_serial_step.m):19
+se diferente de COM4.
+
+```matlab
+>> cd Arduino/HIL_simulink
+>> ping_arduino           % sanity check do link
+>> run_hil_test           % sim no trim (~50s)
+>> run_hil_manobra        % 3 cenários transientes + figura PNG
+>> clear hil_serial_step  % fecha hil_log.csv depois da sim
+>> view_hil_log           % plota o tráfego serial registrado
+```
+
+Detalhes completos em [Arduino/README.md](Arduino/README.md).
+
+### 5. Integração X-Plane
+
+```matlab
+>> inicializar_xplane
+>> open('Xplane/xplane_autopilot.slx')
+```
+
+Detalhes em [Xplane/readme.md](Xplane/readme.md).
 
 ## Dependências
 
-- MATLAB R2024a ou superior
+- MATLAB R2024a ou superior (testado em R2025b)
 - Simulink
 - Optimization Toolbox (para trimagem)
+- Arduino IDE 2.x (para HIL)
 
-Para detalhes de cada módulo, consultar o `readme.md` dentro de cada pasta.
+## Convenções
+
+- **S-Function única:** `modelos/Não Linear/sfunction_piper.m` é a planta usada por
+  TODOS os modelos Simulink (`modeloNL1.slx`, `NL_guidance.slx`, `modeloNL1_HIL.slx`,
+  `modelo_HIL_guiagem.slx`). 21 saídas.
+- **Workspace base:** `inicializar.m` faz `clear; clc` no início e popula o base
+  workspace. Não use variáveis suas com nomes que conflitem (`Xe`, `Ue`, `WPs`, etc.).
+- **Trim:** `Xe(12) = -100` significa altitude = +100 m (sistema NED).
+
+Para detalhes de cada módulo, ver o `readme.md` correspondente dentro da pasta.
