@@ -1,9 +1,0 @@
-CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 120
-FIGURA 6.28 – Boeing 747-400 durante a simulação com o ângulo de
-rolamento de referência igual a −20°.
-Estes resultados mostram que um sistema de piloto automático embarcado no hard-
-ware EKT-LM3S6965 utilizando a ferramenta desenvolvida, plug-ins e configurações ade-
-quadas pode controlar, de acordo com o projeto de controle desenvolvido, uma aeronave
-no simulador de voo X-Plane. Desta forma, conclui-se que a plataforma de testes pode
-ser utilizada para o propósito ao qual foi concebida: uma ferramenta de simulação para
-sistemas de piloto automático em desenvolvimento.
