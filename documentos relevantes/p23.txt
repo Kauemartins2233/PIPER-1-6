@@ -1,0 +1,37 @@
+CAPÍTULO 1. INTRODUÇÃO 23
+Assim, na presente dissertação, uma proposta de metodologia para o desenvolvimento
+dociclocompletodeumsistemadepilotoautomáticoparaveículosaéreosnãotripuladosé
+apresentada. Na metodologia proposta, a implementação do sistema de piloto automático
+deve seguir algumas etapas distintas que, em resumo, são descritas a seguir:
+1. Implementação do modelo não linear: o modelo matemático de simulação que
+descreve a dinâmica de voo pode ser implementado para qualquer aeronave não tri-
+puladadeasafixa,umavezqueosparâmetrosgeométricoseinerciaissãoconhecidos,
+assim como, os coeficientes aerodinâmicos utilizados no modelo aerodinâmico.
+Assim, a implementação do modelo não linear, não faz parte do desenvolvimento
+de um sistema de piloto automático. Porém, para realizar o projeto de controle
+utilizando a teoria de controle, como foi feito neste trabalho, é necessário se ter o
+modelo matemático da aeronave. Desta forma, neste trabalho, a implementação do
+modelo matemático da aeronave alvo foi desenvolvido.
+2. Linearização do modelo não linear: para o desenvolvimento do sistema de
+controle utilizando as técnicas do controle clássico é necessário linearizar o conjunto
+de equações não lineares que descrevem a dinâmica do movimento, definindo uma
+condição de equilíbrio (trimagem) no envelope de voo da aeronave.
+3. Projeto do sistema de controle: no projeto de controle o sistema completo é
+dividido em dois sistemas que representam, respectivamente, as dinâmicas longi-
+tudinal e latero-direcional da aeronave. Os ganhos utilizados para implementar as
+malhas de controle referente às dinâmicas latero-direcional e longitudinal podem ser
+determinados, utilizando as técnicas do controle clássico, através da sequência de
+procedimentos que serão definidos na presente dissertação.
+4. Implementação do sistema de piloto automático: novas funcionalidades para
+a Unidade Central de Processamento (UCP) foram implementadas possibilitando
+a sua comunicação com o meio externo e, consequentemente, com o modelo não
+linear de simulação desenvolvido. Foram desenvolvidas melhorias nos algoritmos de
+guiagem e controle da UCP: um novo algoritmo de guiagem mais eficiente que o
+anterior foi implementado, enquanto as malhas do sistema de controle embarcado
+foram desenvolvidas a partir do modelo matemático da aeronave.
+5. Simulações em Hardware-In-the-Loop: para testar e validar o sistema de pi-
+loto automático para veículos aéreos não tripulados e, consequentemente, avaliar o
+seu desempenho nas simulações foi desenvolvida uma plataforma de testes. Na pla-
+taforma de testes, simulações em Hardware-In-the-Loop entre o sistema de piloto
+automático e o modelo não linear de simulação da dinâmica de voo da aeronave
+desenvolvido em ambiente MATLAB® Simulink® podem ser executadas.

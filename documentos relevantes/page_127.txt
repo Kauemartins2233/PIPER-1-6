@@ -1,0 +1,41 @@
+REFERÊNCIAS 127
+OGATA, K. Engenharia de Controle Moderno. 5. ed. São Paulo, Brasil: Pearson
+Education, 2011. ISBN 9788576058106.
+OLIVEIRA, T. D. S. de. Utilização de técnicas de identificação de sistemas
+aplicadas a veículos aéreos não tripulados (VANTs). 144 p. Trabalho de
+Formatura — Escola Politécnica da Universidade de São Paulo, 2007.
+PAW, Y. C.; BALAS, G. J. Development and application of an integrated framework for
+small UAV flight control development. Mechatronics, Elsevier, v. 21, n. 5, p. 789–802,
+aug 2011. Disponível em: <https://doi.org/10.1016/j.mechatronics.2010.09.009>.
+PEREIRA, M. O. Sistema de Navegação e Determinação de Atitude Inercial
+para Aeronaves Não Tripuladas com Base em Sensores de Baixo Custo. 146 p.
+Dissertação (Mestrado em Engenharia Eletrônica e Computação) — Instituto
+Tecnológico de Aeronáutica, 2013.
+POUNDS, P.; MAHONY, R.; CORKE, P. Modelling and control of a large quadrotor
+robot. Control Engineering Practice, Elsevier, v. 18, n. 7, p. 691–699, jul 2010.
+Disponível em: <https://doi.org/10.1016/j.conengprac.2010.02.008>.
+RIBEIRO, L. R. Plataforma de Teste para Sistemas de Piloto Automático
+utilizando Matlab/Simulink e Simulador de Vôo X-Plane. 170 p. Dissertação
+(Mestrado em Engenharia Eletrônica e Computação) — Instituto Tecnológico de
+Aeronáutica, 2011.
+RIBEIRO, L. R.; OLIVEIRA, N. M. F. de. UAV autopilot controllers test platform
+using matlab/simulink and x-plane. In: IEEE. Proceedings of 40th ASEE/IEEE
+Frontiers in Education Conference. Washington, DC, USA, 2010. p. S2H–1.
+RODDEY, D. Building Protocols. 1. ed. New York, USA: Charmed Quark, 2011.
+ROSKAM, J. Airplane Flight Dynamics & Automatic Flight Controls. New
+York, USA: Design, Analysis and Research Corporation (DARcorporation), 1998.
+(Airplane Flight Dynamics and Automatic Flight Controls, Pt. 1). ISBN 9781884885174.
+SAGAHYROON, A.; JARAH, M. A.; HADI, A. . M. Design and implementation of a
+low cost UAV controller. In: 2004 IEEE International Conference on Industrial
+Technology, 2004. IEEE ICIT '04. IEEE, 2004. v. 3, p. 1394–1397. Disponível em:
+<https://doi.org/10.1109/icit.2004.1490765>.
+SANTANA, D. D. S. Navegação terrestre usando unidade de medição inercial
+de baixo desempenho e fusão sensorial com filtro adaptativo e suavizado de
+Kalman. 209 p. Tese (Doutorado) — Escola Politécnica – Universidade de São Paulo,
+2011.
+SANTANA, L. M. S. Sistema de Rastreamento para Multicópteros Utilizando
+uma Câmera RGB-D Estática. 100 p. Dissertação (Mestrado em Engenharia
+Aeronáutica e Mecânica) — Instituto Tecnológico de Aeronáutica, 2017.
+SANTOS, L. A. dos. Estudo de Algoritmos de Determinação de Atitutde para
+Aplicações Utilizando Sensores de Baixo Custo. 84 p. Dissertação (Mestrado em
+Engenharia Eletrônica e Computação) — Instituto Tecnológico de Aeronáutica, 2015.

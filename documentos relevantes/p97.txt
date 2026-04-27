@@ -1,0 +1,35 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 97
+6.2.1 Interface de Entrada e Saída de Dados
+A comunicação entre MATLAB® Simulink® e microcontrolador (EKT-LM3S6965),
+neste trabalho, foi feita através da interface de entrada e saída de dados descrita nesta
+seção. Durante cada passo de simulação do modelo não linear da aeronave, a interface
+de entrada e saída de dados é responsável por receber e decodificar o pacote de dados
+enviado pela Unidade Central de Processamento (UCP) com as variáveis do vetor de
+entrada, codificar e enviar para o Sistema de Navegação (SN) o pacote de dados com as
+variáveis do vetor de saída da dinâmica de simulação da aeronave.
+A comunicação entre os dois sistemas através do envio e recebimento via Protocolo
+UDP foi feita utilizando os blocos disponíveis na Instrument Control Toolbox™. Para a
+comunicação remota com outros computadores e dispositivos, a toolbox fornece suporte
+interno para os protocolos seriais: TCP/IP, UDP, I2C, SPI, MODBUS e Bluetooth®.
+A codificação e decodificação dos pacotes de dados enviados e recebidos no formato
+Pegasus 2.0 foi feita através de S-Function Builder. A S-Function Builder é um
+bloco do Simulink® capaz de integrar código em linguagem de programação C/C++,
+permitindo a construção de uma s-function a partir das especificações e do código
+em linguagem C fornecido. Na presente dissertação, esses blocos foram programados
+utilizando a linguagem de programação C e são essenciais para o perfeito funcionamento
+da comunicação entre computador e microcontrolador.
+O fluxograma de execução da plataforma de testes proposta em ambiente de simulação
+MATLAB® Simulink® incluindo a interface de entrada e saída de dados pode ser resumido
+de acordo com a Figura 6.6.
+Enviodo
+PacotedeDados(SN)
+Codificaçãodo
+PacotedeDados
+SimulaçãodaDinâmica
+daAeronave
+Decodificaçãodo
+PacotedeDados
+Recebimentodo
+PacotedeDados(UCP)
+FIGURA 6.6 – Diagrama descritivo de execução da plataforma de testes em
+MATLAB® Simulink®.

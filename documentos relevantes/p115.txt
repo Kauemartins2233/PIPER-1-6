@@ -1,0 +1,21 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 115
+FIGURA 6.23 – Menu de seleção dos dados recebidos pelo X-Plane.
+O endereço de IP, assim como os números das portas de envio e recebimento utilizados
+na configuração do segmento de comunicação da plataforma de testes devem ser configu-
+rados no menu Plugins\Pegasus\Net Connections do simulador X-Plane. A interface do
+usuárioNet Connections foidesenvolvidaparaaconfiguraçãodosparâmetrosdosegmento
+de comunicação, que neste caso, foram definidos de acordo com a Figura 6.5.
+A Figura 6.24 apresenta os parâmetros de configuração dessa interface gráfica no X-
+Plane, acessada através do menu principal Plugins\Pegasus\Net Connections.
+As configurações do endereço de IP e da porta da camada de transporte para a qual
+o X-Plane irá enviar os dados via UDP devem ser informadas pelo usuário. Neste caso,
+o endereço de IP é o endereço de rede atribuído ao microcontrolador onde a Unidade
+Central de Processamento foi implementada. O número das portas locais foram definidos
+noX-Plane, deacordocomasdiretivasdeconfiguraçãoapresentadasanteriormente, sendo
+a porta 45000 definida para receber dados e a porta 45001 para enviar dados.
+O X-Plane é capaz de transmitir ou receber até 99,9 pacote de dados por segundo
+através de uma rede local (
+MEYER
+, 2011). Na interface “Net Connections” esse parâmetro
+pode ser configurado no campo UDP rate. A taxa de transmissão aqui adotada, foi a
+máxima permitida, ou seja, 99,9 pacote de dados por segundo.

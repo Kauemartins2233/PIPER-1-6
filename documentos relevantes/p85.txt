@@ -1,0 +1,37 @@
+CAPÍTULO 5. PILOTO AUTOMÁTICO PEGASUS 85
+O período de amostragem, T , adotado no projeto de controle discreto foi o mesmo
+s
+utilizado no Simulink® para resolver as equações não lineares do modelo matemático
+que descrevem a dinâmica do movimento da aeronave. Considera-se, à vista disso, uma
+frequência f = 100Hz com o período de amostragem calculado segundo a Equação (5.1).
+1
+T = = 0.01s (5.1)
+s
+f
+Deve ser observado que o sinal de controle para o controlador discreto implementado,
+se comparado com o sinal de controle analógico original, foi reconstruído de forma satisfa-
+tória. Como o método utilizado é uma aproximação e depende do período de amostragem,
+T , a solução discreta como esperado não é totalmente idêntica à solução analógica.
+s
+5.4.2 Algoritmo de Guiagem
+O sistema de guiagem é responsável por gerar as referências para o sistema de controle
+— a partir de um conjunto de waypoints fornecidos pelo usuário — permitindo que a ae-
+ronave execute uma missão desejada. Existem inúmeras técnicas que podem ser utilizadas
+para esta finalidade, porém, a maioria dos algoritmos de guiagem utilizados para UAVs
+tem como objetivo:
+• Atingir a Meta: Atingir um ponto do espaço tridimensional (waypoint), sem levar
+em consideração o caminho percorrido nem a eficiência da trajetória;
+• Otimização de Caminho: Percorrer o menor e mais otimizado percurso para
+atingir a meta, ou waypoint;
+• Desvio de Obstáculos: Percorrer a trajetória fornecida evitando colisões com
+possíveis obstáculos;
+• Tracking: Seguir e monitorar um alvo determinado.
+Embora existam várias maneiras de se implementar o sistema de guiagem, esta seção,
+irá discutir a implementação do algoritmo de guiagem que segue a primeira especifica-
+ção, onde serão geradas referências para a aeronave atingir um conjunto de waypoints
+predeterminados pelo usuário.
+O algoritmo de guiagem implementado neste trabalho é baseado em algumas hipóteses
+simplificadoras, deacordocomalimitaçãodememóriaflashdomicrocontroladordopiloto
+automático Pegasus. Cada waypoint (conjunto de coordenadas de referência) que compõe
+a matriz de waypoints, WP, é composto pelas coordenadas geográficas no sistema de
+navegação local (NED).

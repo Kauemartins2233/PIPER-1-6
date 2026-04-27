@@ -1,0 +1,36 @@
+CAPÍTULO 2. DINÂMICA DO MOVIMENTO DE UMA AERONAVE 36
+O número de elementos do vetor de entradas, ~u, varia de acordo com o número de
+superfícies de controle e motores da aeronave. Neste caso, o vetor de controle para uma
+aeronave típica pode ser representado conforme a Equação (2.14).
+!T
+~u = Π δ δ δ (2.14)
+e a r
+O vetor de saída do modelo não linear que representa a dinâmica do movimento da
+aeronave é definido segundo a Equação (2.15). É necessária uma equação de saída porque
+as variáveis de estado podem não ser todas variáveis físicas ou diretamente acessíveis.
+!T
+~y = V α β p q r φ θ ψ x y H (2.15)
+T n n
+As variáveis aerodinâmicas, respectivamente, velocidade aerodinâmica e ângulos de
+ataque e derrapagem (V , α, β) são definidas através da relação geométrica entre os
+T
+sistemas de coordenadas do corpo e aerodinâmico, conforme Equações (2.16) – (2.18).
+r
+V = u2 +v2 +w2 (2.16)
+T
+(cid:18)w(cid:19)
+α = arctan (2.17)
+u
+(cid:18) v (cid:19)
+β = arcsen (2.18)
+V
+T
+As funções não lineares contínuas e de valor único f e g representam, respectivamente,
+a dinâmica do movimento de uma aeronave como corpo rígido e suas equações de saída.
+Nesta dissertação, estas funções foram implementadas em linguagem MATLAB® pelas
+rotinas dyn_rigidbody.m e obs_rigidbody.m.
+2.6 Piper J-3 Cub 1/4
+A aeronave alvo utilizada neste trabalho é um Piper J-3 Cub 1/4. A notação 1/4
+significa que todas as medidas dessa aeronave tem um quarto de escala das medidas
+originais do Piper J-3 Cub produzido pela “Piper Aircraft”. A Figura 2.4 apresenta a
+aeronave Piper J-3 Cub, modelo original 1/1 produzido pela “Piper Aircraft”.

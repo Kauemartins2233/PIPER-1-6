@@ -1,0 +1,36 @@
+CAPÍTULO 4. PROJETO DE CONTROLE 75
+A resposta temporal do ângulo de guinada apresenta tempo de acomodação de cerca
+de 32,50s com sobressinal mínimo. Observa-se, também, a resposta em malha fechada do
+ângulo de rolamento — variável manipulada na malha interna (controlador do ângulo de
+rolamento) — ao piloto automático do ângulo de guinada.
+30
+15
+0
+-15
+-30
+0 50 100 150 200 250 300
+)suarg(
+otnemaloR
+ed
+olugnAˆ
+Resposta Linear
+Resposta N˜ao Linear
+50
+25
+0
+-25
+-50
+0 50 100 150 200 250 300
+Tempo (s)
+)suarg(
+adaniuG
+ed
+olugnAˆ Resposta Linear
+Resposta N˜ao Linear
+Referˆencia
+FIGURA 4.15 – Resposta latero-direcional (ângulos de rolamento e guinada)
+ao piloto automático do ângulo de guinada.
+No próximo capítulo será apresentado os outros sistemas que compõem o piloto au-
+tomático para pequenos UAVs implementado neste trabalho, do mesmo modo que serão
+apresentados os resultados obtidos com o projeto de controle embarcado e o modelo ma-
+temático não linear simulado em ambiente MATLAB® Simulink®.

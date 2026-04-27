@@ -1,0 +1,40 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 93
+EKT-LM3S6965
+MATLAB® Simulink®
+Unidade Central de Processamento (UCP)
+WP
+Guiagem
+VTWP , HWP, ψWP
+Controle
+~u
+Aeronave
+VT, H, p, q, r, φ, θ, ψ
+x n, y n Navegação
+~y
+variáveis
+WP: matrizdewaypoints
+~u : vetordeentrada
+Sistema de Navegação (SN)
+~y : vetordesaída
+FIGURA 6.2 – Diagrama de blocos da plataforma de testes proposta.
+O sistema de navegação inercial (SN) como não é o escopo deste trabalho será consi-
+derado durante as simulações subsequentes, para fins de simplificação, como ideal. Desta
+forma, as variáveis do vetor de saídas do modelo de simulação da aeronave serão obtidas
+desconsiderando os erros e perturbações, normalmente, presentes na leitura dos sensores.
+As principais fontes de erros que comprometem a precisão de um sistema de navegação
+inercial são as imperfeições dos sensores e os erros devido a distúrbios aleatórios. Os erros
+dossensoresinerciaissãodotipoestocásticosedeterminísticos,podendoser: ruídobranco,
+desalinhamentos, bias, fator de escala, erro de quantização e deriva térmica (
+GREWAL et
+, 2001; , 2011; , 2013).
+al. SANTANA PEREIRA
+É importante destacar, que uma vez feita a correta modelagem matemática dos senso-
+resinerciasépossívelincluí-lanadinâmicadesimulaçãodaaeronavee, consequentemente,
+avaliar o desempenho durante as simulações do algoritmo de determinação de atitude im-
+plementado no bloco de navegação.
+Devido à modularidade da arquitetura do Pegasus AP, a plataforma de testes proposta
+oferece ao projetista uma grande vantagem, que é a possibilidade de adicionar novas
+funcionalidades ao sistema sem a necessidade de refazer todo o interfaceamento entre os
+sistemas. Por conseguinte, é necessário que o formato dos pacotes de dados, que será
+descrito a seguir, seja utilizado na comunicação entre os módulos do piloto automático
+Pegasus e o modelo não linear de simulação da aeronave.

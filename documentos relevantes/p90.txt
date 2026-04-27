@@ -1,0 +1,26 @@
+6 Simulações Hardware-In-the-Loop
+Neste capítulo será apresentada, com detalhes, a plataforma de testes desenvolvida
+para validar e testar os blocos que compõem um sistema de piloto automático para UAVs.
+Também serão apresentados os resultados obtidos com simulações em HIL entre o piloto
+automático Pegasus e o modelo não linear de simulação da aeronave (Piper J-3 Cub 1/4)
+desenvolvido em ambiente MATLAB® Simulink®.
+Missões onde o UAV deve percorrer coordenadas geográficas predeterminadas, way-
+points, foram simuladas com o objetivo de avaliar o desempenho dos sistemas de guiagem
+e controle desenvolvidos neste trabalho.
+Por fim, uma alternativa ao modelo de simulação da aeronave utilizando o simulador
+de voo X-Plane é apresentada. Também será apresentada, com detalhes, a interface
+desenvolvida para integrar o X-Plane e a plataforma de testes proposta. Simulações
+utilizando o X-Plane em condições semelhantes a utilizadas em ambiente MATLAB®
+Simulink® serão apresentadas para enriquecer os resultados apresentados.
+6.1 A plataforma de testes
+Esta seção descreve a plataforma de testes proposta, desenvolvida para validar e testar
+a Unidade Central de Processamento (UCP) projetada nesse trabalho. Também é mos-
+trado como a plataforma de testes pode ser utilizada como uma ferramenta de testes no
+desenvolvimento de sistemas de piloto automático para UAVs. Em particular, testes de
+simulação por Hardware-In-the-Loop (HIL) devem ser adotados sempre que possível para
+validar o hardware e software sob as condições mais realistas possíveis.
+6.1.1 Conceito
+A técnica HIL, normalmente é utilizada no desenvolvimento e testes de sistemas em-
+barcados complexos de tempo real, como o sistema de piloto automático para um UAV.
+O objetivo das simulações HIL é fornecer uma plataforma eficaz para o desenvolvimento e
+testes do sistema embarcado, no qual possam ser aplicados modelos similares a aeronave

@@ -1,0 +1,40 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 100
+6.2.1.2 Codificação e Envio do Pacote de Dados para o EKT-LM3S6965
+A interface de saída de dados implementada na plataforma de testes é responsável
+por codificar e enviar o pacote de dados ao o microcontrolador (EKT-LM3S6965). O
+pacotes de dados enviado, em cada passo de simulação, deve conter as variáveis do vetor
+de saída do modelo não linear de simulação da aeronave. Os blocos Simulink® utilizados
+na implementação desta interface são apresentados pela Figura 6.8.
+1 ~y single dados_matlab Pkt[77] re B ve y r t s e al Pack 1 P 9 o 2 r .1 t: 68 4 . 5 1 0 .1 0 0 4 1
+In1
+DataTypeConversion
+S-FunctionBuilder ByteReversal Pack UDPSend
+FIGURA 6.8 – Blocos Simulink® para codificação e envio do pacote de dados
+no formato Pegasus 2.0.
+O bloco Data Type Conversion é responsável por converter as variáveis a serem
+enviadas do formato ponto flutuante de precisão dupla (double) — que é o formato das
+variáveis utilizadas no modelo não linear de simulação da aeronave — para o formato
+ponto flutuante de precisão simples.
+O bloco S-Function Builder é responsável pela conversão das variáveis do vetor
+de saída do modelo não linear de simulação da aeronave, do formato ponto flutuante
+de precisão simples para o tipo inteiro de 8 bits sem sinal. Finalmente, antes de serem
+enviadasaoSistemadeNavegação, asvariáveisdotipopontoflutuantedeprecisãosimples
+— representadas como um conjunto de 4 bytes — são codificadas de acordo com o formato
+Pegasus 2.0 apresentado pela Figura 6.4, conforme é demonstrado pelo Código 6.2.
+1 static byte ∗p, ∗pLrc;
+2 static byte Lrc;
+3
+4 // first byte
+5 p = Pkt;
+6
+7 // STX
+8 ∗p = 'P'; p++;
+9 ∗p = 'N'; p++;
+10 ∗((short∗)p) = 0x40 | 0x10 | 0x08 | 0x04; p+=sizeof(short);
+11
+12 /∗ Group 3 : p q r ∗/
+13 ∗p = '3'; p++;
+14 pLrc = p;
+15 // RollRate PitchRate YawRate
+16 ∗((float∗)p) = y[3]; p+=sizeof(float);
+17 ∗((float∗)p) = y[4]; p+=sizeof(float);

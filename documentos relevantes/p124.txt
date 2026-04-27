@@ -1,0 +1,31 @@
+Referências
+ADIPRAWITA, W.; AHMAD, A. S.; SEMBIRING, J. Hardware in the loop simulation
+for simple low cost autonomous UAV (unmanned aerial vehicle) autopilot system
+research and development. In: ICEEI. International Conference on Electrical
+Engineering and Informatics. Institut Teknologi Bandung, Indonesia, 2007.
+BEARD, R. W.; KINGSTON, D.; QUIGLEY, M.; SNYDER, D.; CHRISTIANSEN, R.;
+JOHNSON, W.; MCLAIN, T.; GOODRICH, M. Autonomous vehicle technologies for
+small fixed-wing UAVs. Journal of Aerospace Computing, Information, and
+Communication, American Institute of Aeronautics and Astronautics (AIAA), v. 2,
+n. 1, p. 92–108, jan 2005. Disponível em: <https://doi.org/10.2514/1.8371>.
+BEARD, R. W.; MCLAIN, T. W. Small unmanned aircraft: Theory and
+practice. [S.l.]: Princeton University Press, 2012. ISBN 9780691149219.
+BIANCHETTI, E. S. A Flight Control System for UAV Prometheus. 114 p.
+Trabalho de Conclusão de Curso (Graduação em Engenharia Eletrônica) — Instituto
+Tecnológico de Aeronáutica, 2012.
+BITTAR, A. Arquitetura da Unidade Central de Processamento do Pegasus
+Autopilot: da concepção à implementação de um sistema de tempo real em
+Hardware-In-the-Loop. 187 p. Dissertação (Mestrado em Engenharia Eletrônica e
+Computação) — Instituto Tecnológico de Aeronáutica, 2012.
+BOON, N. K. Mini airship patrol craft. 69 p. Trabalho de Conclusão de Curso
+(Bachelor thesis) — National University of Singapore, 2003.
+CAPELLO, E.; GUGLIERI, G.; RISTORTO, G. Guidance and control algorithms for
+mini UAV autopilots. Aircraft Engineering and Aerospace Technology, Emerald
+Publishing Limited, v. 89, n. 1, p. 133–144, jan 2017. Disponível em:
+<https://doi.org/10.1108/aeat-10-2014-0161>.
+CARVALHO, A. G. de. Influência da Modelagem dos Componentes de Bias
+Instabilidade dos Sensores Inerciais no Desempenho do Navegador Integrado
+SNI/GPS. 146 p. Dissertação (Mestrado) — Instituto Militar de Engenharia, 2011.
+CARVALHO, D. de A. Desenvolvimento de uma Estação de Controle em Solo
+para VANTs de Pequeno Porte. 102 p. Dissertação (Mestrado em Engenharia
+Eletrônica e Computação) — Instituto Tecnológico de Aeronáutica, 2013.

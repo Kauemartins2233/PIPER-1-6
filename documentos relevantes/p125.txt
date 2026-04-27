@@ -1,0 +1,41 @@
+REFERÊNCIAS 125
+CETIN, O.; ZAGLI, I. Continuous airborne communication relay approach using
+unmanned aerial vehicles. Journal of Intelligent & Robotic Systems, Springer
+Nature, v. 65, n. 1-4, p. 549–562, jan 2012. Disponível em:
+<https://doi.org/10.1007/s10846-011-9556-6>.
+CHAO, H.; CAO, Y.; CHEN, Y. Autopilots for small unmanned aerial vehicles: A
+survey. International Journal of Control, Automation and Systems, Springer
+Nature, v. 8, n. 1, p. 36–44, feb 2010. Disponível em:
+<https://doi.org/10.1007/s12555-010-0105-z>.
+COOK, M. V. Flight Dynamics Principles: A Linear Systems Approach to
+Aircraft Stability and Control. 2. ed. [S.l.]: Elsevier, 2007. ISBN 9780750669276.
+DU, Y. Development of real-time flight control system for low-cost vehicle.
+134 p. Dissertação (Master thesis) — Cranfield University, 2011.
+ETKIN, B.; REID, L. D. Dynamics of Flight: Stability and Control. 3. ed. New
+York, USA: John Wiley & Sons, Inc., 1995. ISBN 9780471034186.
+EUSTON, M.; COOTE, P.; MAHONY, R.; KIM, J.; HAMEL, T. A complementary
+filter for attitude estimation of a fixed-wing UAV. In: 2008 IEEE/RSJ International
+Conference on Intelligent Robots and Systems. IEEE, 2008. p. 340–345.
+Disponível em: <https://doi.org/10.1109/iros.2008.4650766>.
+FARREL, J.; BARTH, M. The Global Positioning System & Inertial
+Navigation. [S.l.]: McGraw-Hill Education, 1999. 340 p. ISBN 9780071369442.
+FRANKLIN, G. F.; POWELL, J. D.; EMAMI-NAEINI, A. Sistemas de Controle
+para Engenharia. 6. ed. Porto Alegre, Brasil: Bookman, 2013. ISBN 9788582600672.
+GARCIA, R.; BARNES, L. Multi-UAV simulator utilizing x-plane. Journal of
+Intelligent and Robotic Systems, Springer Nature, v. 57, n. 1-4, p. 393–406, oct
+2009. Disponível em: <https://doi.org/10.1007/s10846-009-9372-4>.
+GARZA, F. R.; MORELLI, E. A. A Collection of Nonlinear Aircraft Simulations
+in MATLAB. NASA Langley Research Center. Hampton, VA United States,
+2003. 92 p. Disponível em:
+<https://ntrs.nasa.gov/archive/nasa/casi.ntrs.nasa.gov/20030013626.pdf>. Acesso em:
+02 fev. 2018.
+GREWAL, M. S.; WEILL, L. R.; ANDREWS, A. P. Global Positioning Systems,
+Inertial Navigation and Integration. New York, USA: John Wiley & Sons, Inc.,
+2001. 392 p.
+GROVES, P. Principles of GNSS, Inertial, and Multisensor Integrated
+Navigation Systems. [S.l.]: Artech House, 2008. (GNSS technology and applications
+series). ISBN 9781580532556.
+HAARBRINK, R.; KOERS, E. Helicopter uav for photogrammetry and rapid response.
+In: CITESEER. 2nd Int. Workshop “The Future of Remote Sensing”, ISPRS
+Inter-Commission Working Group I/V Autonomous Navigation. [S.l.], 2006.
+v. 1.

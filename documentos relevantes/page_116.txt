@@ -1,0 +1,21 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 116
+FIGURA 6.24 – Menu de configuração do IP e portas de acesso no X-Plane.
+Com base nas características do plug-in X-Plane Pegasus apresentadas é que se pre-
+tende controlar o movimento da aeronave em simulação. Durante o precedimento de si-
+mulação em malha fechada, o X-Plane envia ao microcontrolador as variáveis necessárias
+as malhas de controle em questão. A Unidade Central de Processamento calcula e gera os
+sinais de controle para as deflexões nas superfícies de controle da aeronave enviando-os ao
+X-Plane. Este, em resposta, comanda a aeronave em simulação de acordo com os sinais
+recebidos da UCP enviando de volta para um novo processamento as variáveis do vetor
+de saída da aeronave atualizadas, fechando a malha de controle da plataforma de testes.
+6.3.4 Resultados Obtidos
+Embora a plataforma de testes tenha sido concebida primordialmente como uma fer-
+ramenta de auxilio no desenvolvimento de sistemas de AP para UAVs, para a verificação
+dos resultados da Plataforma HIL com o simulador de voo X-Plane foi utilizada como
+aeronave a ser controlada uma aeronave comercial disponível no pacote X-Plane. Isto foi
+feito por não se ter disponível um modelo X-Plane do UAV cujo modelo matemático foi
+utilizado no projeto dos controladores apresentados neste trabalho.
+Como nesta seção o objetivo é a apresentação dos resultados obtidos com a utilização
+dos plug-ins e plataforma desenvolvida, o fato de se utilizar uma aeronave disponível no
+X-Plane não compromete, de forma alguma, a análise destes resultados, do ponto de vista
+da ferramenta desenvolvida.

@@ -1,0 +1,22 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 114
+FIGURA 6.22 – Menu de seleção dos dados enviados pelo X-Plane.
+A conversão das variáveis do vetor de saída do modelo de simulação da aeronave é feita
+do formato ponto flutuante de precisão simples para o tipo inteiro de 8 bits sem sinal.
+Destaforma, antesdeseremenviadasasvariáveisdotipopontoflutuante—representadas
+como um conjunto de 4 bytes — são codificadas de acordo com o formato Pegasus 2.0
+apresentado pela Figura 6.4.
+A interface de entrada de dados implementada no plug-in X-Plane Pegasus é respon-
+sável por receber os pacotes de dados enviados pelo microcontrolador (EKT-LM3S6965),
+decodificar e disponibilizar para o processamento subsequente do simulador de voo X-
+Plane as deflexões de controle recebidas. O vetor de entrada da aeronave deve conter as
+variáveis que compõem o grupo de dados selecionado na interface gráfica: Data Input &
+Output. Para o pacote de dados recebido da Unidade Central de Processamento (UCP),
+no menu “Data Input & Output” do plug-in X-Plane Pegasus o Grupo de Dados 1 deve
+ser selecionado, conforme mostrado pela Figura 6.23.
+As variáveis transmitidas pela UCP são representadas como um conjunto de 4 bytes
+do tipo uint8, correspondente a um valor do tipo ponto flutuante de precisão simples. No
+plug-in X-Plane Pegasus durante a decodificação do pacote de dados, a rotina interna da
+interface de entrada de dados é chamada a cada passo de simulação e, em resumo, deve
+analisar a estrutura do pacote de dados recebido (apresentado pela Figura 6.3), agru-
+par os bytes, extrair os valores das variáveis que estão sendo transmitidas e, finalmente,
+disponibilizar estas variáveis para o vetor de entrada do modelo de simulação da aeronave.

@@ -1,0 +1,33 @@
+CAPÍTULO 7. CONCLUSÃO 122
+Durante as simulações da missão, para as três trajetórias selecionadas, as malhas de
+controle implementadas — longitudinal e latero-direcional — juntamente com o algoritmo
+de guiagem permitiram a aeronave realizar os mais diferentes movimentos, sendo possível
+concluir a execução da missão. Acredita-se, no entanto, que os resultados apresentados
+possam servir como base para novos estudos de técnicas de controle aplicadas a veícu-
+los aéreos não tripulados, fazendo-se, por exemplo, a inclusão de condições climáticas
+ou distúrbios capazes de alterar o comportamento da aeronave em voo. Além disso, o
+método adotado para controlar a planta baseou-se nos projetos realizados com o modelo
+linear obtido em torno de uma única condição de equilíbrio. Logo, tentar explorar outras
+situações mais amplas, com múltiplos modelos locais, poderia ampliar o conhecimento do
+projetista sobre a planta linear, com maior liberdade para moldar as respostas temporais.
+Os resultados obtidos das simulações realizadas na plataforma de testes indicam que
+esta pode ser uma ferramenta muito útil no suporte ao desenvolvimento de sistemas de
+piloto automático para veículos aéreos não tripulados. A oportunidade de se utilizar um
+ambiente controlado de simulação, para validar sob condições realísticas o hardware a ser
+embarcado em voo, certamente traz muitos benefícios no desenvolvimento de um sistema
+de piloto automático de baixo custo.
+Deve ser observado também que com os resultados obtidos após as simulações rea-
+lizadas na plataforma de testes é possível concluir que a implementação do sistema de
+piloto automático Pegasus embarcado em dispositivos microprocessado de baixo custo é
+praticável. O hardware dedicado da plataforma de testes utilizou o processador da linha
+ARM® Cortex™ M3 para a implementação do Pegasus AutoPilot e este microprocessador
+mostrou-se eficiente na execução dos algoritmos que efetuam operações com variáveis do
+tipo ponto flutuante simples de 32bits.
+Por fim, apesar de implícita, uma das grandes contribuições desta dissertação foi
+a implementação do plug-in Pegasus desenvolvido para integrar a plataforma de testes
+implementada com o simulador de voo X-Plane. A associação entre um simulador de voo
+de alta fidelidade como o X-Plane e o sistema de piloto automático embarcado, resulta
+em uma poderosa ferramenta de fácil utilização e baixo custo, que oferece ao projetista
+inúmeras possibilidades de aplicação.
+7.1 Trabalhos Futuros
+Algumas recomendações do autor para trabalhos futuros:

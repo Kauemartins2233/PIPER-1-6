@@ -1,0 +1,27 @@
+7 Conclusão
+Antesdeinicializarodesenvolvimentodosistemadepilotoautomático, conformeapre-
+sentado nesta dissertação, foi feito um estudo sobre as equações do movimento para uma
+aeronave com seis graus de liberdade (6-DOF). A partir de um desenvolvimento conciso
+do conjunto de equações não lineares que descrevem a dinâmica do movimento de uma ae-
+ronave como corpo rígido, obteve-se o modelo não linear de simulação da dinâmica de voo,
+posteriormente utilizado na implementação do sistema de controle assim como nos testes
+e simulações realizados em bancada para o sistema de piloto automático desenvolvido.
+Desta forma, a fundamentação teórica da dinâmica do movimento de uma aeronave é
+imprescindívelnodesenvolvimentodeumtrabalhoquepretende, entreoutros, asimulação
+da resposta dinâmica para diversas condições de voo de um veículo aéreo não tripulado.
+Motivada pelo projeto do sistema de piloto automático Pegasus, a presente disserta-
+ção, apresentou o desenvolvimento dos sistemas de guiagem e controle para um veículo
+aéreo não tripulado de asa fixa. Para testar e avaliar o desempenho das melhorias apre-
+sentadas para os sistemas de guiagem e controle da Unidade Central de Processamento
+do Pegasus AutoPilot foi desenvolvida uma plataforma de testes capaz de realizar simu-
+lações “Hardware-In-the-Loop” (HIL) entre o sistema de piloto automático embarcado e
+o modelo não linear de simulação da dinâmica de voo da aeronave.
+A arquitetura proposta para avaliar o sistema de piloto automático desenvolvido foi
+testada satisfatoriamente utilizando a plataforma de simulação HIL. Nas simulações apre-
+sentadas, o modelo não linear de simulação da aeronave alvo — Piper J-3 Cub 1/4 — foi
+implementado em ambiente computacional enquanto o Pegasus AutoPilot foi embarcado
+no kit de desenvolvimento Stellaris® EKT-LM3S6965.
+Os resultados apresentados em simulações onde a aeronave deveria percorrer uma
+sequência predeterminada de coordenadas geográficas (waypoints), sem a introdução de
+perturbações, com o objetivo de avaliar o desempenho dos sistemas de guiagem e controle
+desenvolvidos na presente dissertação foram satisfatórios.

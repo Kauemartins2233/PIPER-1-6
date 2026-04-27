@@ -1,0 +1,39 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 112
+• Modificar dados no simulador alterando suas ações ou comportamentos. Por exem-
+plo: um plug-in pode alterar a posição da aeronave ou substituir inteiramente o
+modelo de voo do simulador; e
+• Criar Interfaces Gráficas de Usuário (GUIs) dentro do simulador. Por exemplo: um
+plug-in pode criar janelas pop-up com instrumentos ou caixas de diálogo.
+O sistema de plug-ins do X-Plane é baseado em bibliotecas de vínculo dinâmico
+(DLLs). O componente central desse sistema é o X-Plane Plugin Manager (XPLM) que
+é uma biblioteca de código — compilada como uma DLL — responsável por gerenciar
+os plug-ins. O X-Plane vincula-se ao XPLM e todos os plug-ins se conectam ao XPLM.
+Desta forma, o X-Plane Plugin Manager atua como o hub central no sistema de plug-ins
+( , 2018a).
+LAMINAR RESEARCH
+Os plug-ins contêm o código que será executado dentro do simulador. Eles exportam
+as funções que o XPLM pode chamar e o XPLM pesquisa o diretório da DLL do plug-
+in para localizá-las. Da mesma forma, o XPLM contém as funções que o plug-in precisa
+para alterar o simulador, ler dados, criar interface do usuário, etc. O XPLM exporta essas
+funções para o diretório DLL para que o plug-in possa localizá-las e chamá-las (
+LAMINAR
+, 2018a).
+RESEARCH
+A versão X-Plane SDK 2.0.1 disponível para Windows, Linux e Mac OS foi utilizada
+no desenvolvimento do plug-in responsável pelo interfaceamento de entrada e saída de
+dados, que será explanado a seguir, uma vez que a macro XPLM200 possui suporte para
+a versão X-Plane 9 Demo ( , 2018b).
+LAMINAR RESEARCH
+6.3.3 Interface de Entrada e Saída de Dados
+A comunicação entre o X-Plane e a plataforma de testes, neste trabalho, foi feita
+através do plug-in X-Plane Pegasus desenvolvido para interfacear a entrada e saída de
+dados do simulador de voo. Durante cada ciclo de voo da aeronave no simulador X-
+Plane, esse plug-in é responsável por receber e decodificar o pacote de dados enviado pela
+Unidade Central de Processamento (UCP) com as variáveis do vetor de entrada, codificar
+e enviar para o Sistema de Navegação (SN) o pacote de dados com as variáveis do vetor
+de saída da dinâmica de simulação da aeronave.
+Para o perfeito funcionamento do plug-in X-Plane Pegasus duas etapas devem ser
+executadas. A primeira é a instalação do plug-in no X-Plane. Para instalar o plug-in é
+necessáriocopiarapastaondeforamgeradososarquivosbináriosdoplug-inX-PlanePega-
+susparaorepositórioondeoX-Planefoiinstalado: $XPlane_Path$\Resources\plugins.
+Para verificar se o plug-in foi instalado corretamente, durante a execução do X-Plane no

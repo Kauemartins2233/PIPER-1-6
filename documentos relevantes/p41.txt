@@ -1,0 +1,39 @@
+CAPÍTULO 3. FUNDAMENTOS DO CONTROLE CLÁSSICO 41
+˙
+0 =~x = f (~x ,~u ) (3.1)
+0 0
+O voo trimado ou em estado estacionário (steady-state) é importante no projeto do
+controlador, pois fornece uma condição inicial para a simulação de voo, desta forma, as
+equaçõesnãolinearesquedescrevemomovimentodeumaaeronavepodemserlinearizadas
+( , 2012).
+BIANCHETTI
+Neste trabalho, o seguinte ponto de trimagem no envelope de voo foi adotado: V =
+T,0
+20 m/s e H
+0
+= 400 m. Os estados e entradas de equilíbrio foram calculadas utilizando
+a função fsolve do MATLAB® que através do método de mínimos quadrados soluci-
+ona as equações não lineares do modelo matemático. As Tabelas 3.1 e 3.2 apresentam,
+respectivamente, os estados e entradas de equilíbrio calculados pelo método mencionado.
+TABELA 3.1 – Estados de equilíbrio
+u w θ H
+0 0 0 0
+Equilíbrio 19,9739 1,0219 0,0511 400
+Unidade m/s m/s rad m
+TABELA 3.2 – Entradas de equilíbrio
+Π δ δ δ
+0 e0 a0 r0
+Equilíbrio 4,16 -0,0703 0 0
+Unidade % rad rad rad
+Após a trimagem correta do modelo matemático não linear o sistema opera em equilí-
+brio (steady-turn), portanto, a linearização das equações do movimento torna-se possível.
+Utilizando a solução de equilíbrio para linearizar o modelo matemático não linear obtém-
+se a Equação (3.2), que é um conjunto de equações lineares que se aproxima da dinâmica
+do movimento da aeronave próxima à região de equilíbrio. Deve ser destacado que o
+sistema torna-se não linear em graus variados à medida que se desvia do equilíbrio.
+ ˙
+∆~x = A∆~x+B∆~u
+
+(3.2)
+ ~y = C∆~x+D∆~u
+onde

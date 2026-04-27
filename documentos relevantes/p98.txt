@@ -1,0 +1,37 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 98
+6.2.1.1 Recepção e Decodificação do Pacote de Dados do EKT-LM3S6965
+A interface de entrada de dados implementada na plataforma de testes é responsá-
+vel por receber os pacotes de dados enviados pelo microcontrolador (EKT-LM3S6965),
+decodificar e disponibilizar para o processamento subsequente do modelo não linear de
+simulação as variáveis recebidas. Os blocos Simulink® utilizados na implementação desta
+interface são apresentados pela Figura 6.7.
+192.168.1.101 Byte Pkt[23] ~u
+Unpack dados_uC 1
+Port: 45004 reversal
+Out1
+UDPReceive Unpack ByteReversal S-FunctionBuilder
+FIGURA 6.7 – Blocos Simulink® para recepção e decodificação do pacote de
+dados no formato Pegasus 2.0.
+O bloco UDP Receive configura e abre uma interface para um endereço IP específico
+utilizando o protocolo UDP. Esse bloco recebe o pacote de dados UDP armazenando-o
+em um buffer do tipo FIFO. A cada passo de simulação esse bloco disponibiliza em sua
+saída o pacote de dados recebido, neste caso com 23 bytes do tipo inteiro de 8 bits sem
+sinal (uint8), que é o tipo de dados empregado para a comunicação via UDP.
+O bloco Unpack é responsável por dividir o pacote de dados recebido em um vetor
+unidimensional. Os dados desse vetor são bytes do tipo inteiro de 8 bits sem sinal (uint8).
+Éimportantedestacarqueaextremidade(endianness)deordenaçãodosbytesfeitano
+formato big-endian pelo processador ARM® Cortex™ M3 é diferente da ordenação little-
+endian feita pelo MATLAB®. O bloco Byte Reversal executa a inversão necessária na
+ordem dos bytes, possibilitando assim, uma perfeita comunicação entre os dois sistemas.
+O bloco S-Function Builder é responsável pela decodificação do pacote de dados
+recebido pela Unidade Central de Processamento no formato Pegasus 2.0 (Figura 6.3).
+Esta estrutura é responsável por decodificar o pacote de dados previamente convertido
+em um vetor unidimensional de 23 bytes, associando-o as variáveis do vetor de entrada
+que será processado pelo modelo não linear de simulação da aeronave.
+As variáveis transmitidas pela UCP são representadas como um conjunto de 4 bytes do
+tipo uint8, correspondente a um valor do tipo ponto flutuante de precisão simples. Entre
+outras coisas, a S-Function Builder dados_uC implementada em linguagem C, descrita
+pelo Código 6.1 converte os dados para o formato de ponto flutuante de precisão dupla
+(double) que é o formato das variáveis utilizadas no modelo não linear de simulação.
+Durante a decodificação do pacote de dados, a rotina interna da interface de entrada
+de dados é chamada a cada passo de simulação e em resumo deve analisar a estrutura

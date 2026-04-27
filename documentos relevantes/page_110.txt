@@ -1,0 +1,33 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 110
+400
+300
+200
+100
+0
+0 50 100 150 200 250 300 350 400
+Tempo (s)
+)suarg(
+adaniuG
+ed
+olugnAˆ
+Aˆngulo de Referˆencia
+Resposta Obtida
+FIGURA 6.20 – Trajetória C: Variação temporal do ângulo de guinada.
+6.3 Ambiente de simulação com X-Plane
+6.3.1 O Simulador de Voo X-Plane
+O X-Plane é um pacote de simulação de voo produzido pela Laminar Research comer-
+cialmente disponível para computadores pessoais. A instalação deste software pode ser
+feita em computadores que utilizem os sistemas operacionais Linux, Mac OS ou Windows.
+Recentemente foram desenvolvidas versões mais simples para instalação em dispositivos
+móveis, tablets e smartphones que utilizam o sistema operacional Android ou iOS.
+Devido aos seus modelos de aeronaves extremamente precisos, é capaz de produzir
+uma simulação com alto grau de semelhança com um voo real. Segundo o fabricante,
+pode-se dizer que o X-Plane trata-se não apenas de um jogo mas sim de uma ferramenta
+de engenharia que pode ser utilizada para prever as qualidades de voo de aeronaves de
+asa fixa ou rotativa ( , 2009).
+GARCIA; BARNES
+Sua biblioteca conta com uma variedade de modelos de aeronaves e aeroportos, per-
+mitindo ainda que condições atmosféricas e climáticas, como chuva, nuvens temporárias
+com vento controlável, tesouras de vento e turbulências sejam introduzidas na simula-
+ção de voo. Devido a precisão de seus cálculos, o X-Plane é o único simulador de voo
+aprovado pela Federal Aviation Administration (FAA) para treinamento de pilotos, tal o

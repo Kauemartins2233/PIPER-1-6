@@ -1,0 +1,37 @@
+CAPÍTULO 6. SIMULAÇÕES HARDWARE-IN-THE-LOOP 92
+Com essa motivação, a presente dissertação, propõe a criação de uma plataforma de
+testes capaz de realizar simulações HIL para testar e validar os blocos que compõem
+um sistema de piloto automático e, consequentemente, avaliar o seu desempenho nas
+simulações. A grande contribuição desta proposta se comparada com outros trabalhos é
+a possibilidade de desenvolver o ciclo completo de um sistema de piloto automático.
+Contanto que os parâmetros geométricos e inerciais de uma determinada aeronave são
+conhecidos, assim como, os coeficientes aerodinâmicos necessários para completar o mo-
+delo aerodinâmico, torna-se possível a implementação do modelo não linear de simulação
+que descreve a dinâmica do movimento da aeronave apresentado no Capítulo 2.
+O modelo matemático não linear de simulação da dinâmica de voo para uma aeronave
+com seis graus de liberdade (6-DOF) pode ser linearizado aplicando a metodologia apre-
+sentada no Capítulo 3. Por conseguinte, o desenvolvimento do sistema de controle pode
+ser feito aplicando-se a metodologia proposta no Capítulo 4 para implementar as malhas
+de controle referente as dinâmicas latero-direcional e longitudinal da aeronave.
+As etapas para implementar a Unidade Central de Processamento (UCP) — composta
+pelos blocos de guiagem e controle do sistema de piloto automático — são apresentadas
+no Capítulo 5. A plataforma de testes pode, então, ser utilizada para validar e testar as
+malhas de controle e os blocos que compõem o sistema de piloto automático desenvolvido,
+através de simulações HIL, onde a dinâmica de simulação da aeronave implementada em
+ambiente computacional pode ser feita utilizando o modelo não linear desenvolvido em
+MATLAB® Simulink® ou o simulador de voo X-Plane.
+Na plataforma de testes proposta, os blocos a serem validados do piloto automático
+Pegasus devem ser embarcados no microcontrolador LM3S6965 ARM® Cortex™ M3 v7M.
+O microcontrolador utilizado deve se comunicar diretamente com o computador onde está
+implementado o modelo não linear que descreve a dinâmica da aeronave. A comunicação
+entre os dois sistemas é feita através da interface Ethernet do microcontrolador, via pro-
+tocolo UDP (User Datagram Protocol). A escolha do protocolo se deu pela sua principal
+característica: velocidade de transmissão.
+O procedimento de simulação em malha fechada da plataforma de testes proposta
+é realizado conforme ilustrado no esquemático da Figura 6.2. Os blocos de navegação,
+guiagem e controle são embarcados no microcontrolador e a dinâmica do movimento da
+aeronave é simulada em ambiente computacional.
+O sistema de piloto automático Pegasus, como descrito anteriormente, é composto
+pelos blocos de navegação, guiagem e controle. Na presente dissertação, os blocos a serem
+validados — guiagem e controle — utilizando a plataforma de testes fazem parte da
+Unidade Central de Processamento (UCP) do Pegasus AutoPilot.
